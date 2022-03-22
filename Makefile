@@ -30,36 +30,36 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = StdSockets1.0.0
-DISTDIR = /home/nilmar/DUT/client-server/The-Game/.tmp/StdSockets1.0.0
+DISTDIR = /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/.tmp/StdSockets1.0.0
 SUBTARGETS    =  \
 		sub-Server
 
 
 sub-Server-qmake_all:  FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro
+	cd Server/ && $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro
 	cd Server/ && $(MAKE) -f Makefile qmake_all
 sub-Server: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile
 sub-Server-make_first: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile 
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile 
 sub-Server-all: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile all
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile all
 sub-Server-clean: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile clean
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile clean
 sub-Server-distclean: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile distclean
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile distclean
 sub-Server-install_subtargets: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile install
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile install
 sub-Server-uninstall_subtargets: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile uninstall
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile uninstall
 
 Makefile: StdSockets.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -218,12 +218,12 @@ uninstall_subtargets: sub-Server-uninstall_subtargets FORCE
 
 sub-Server-check:
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile check
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile check
 check: sub-Server-check
 
 sub-Server-benchmark:
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -f Makefile benchmark
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile benchmark
 benchmark: sub-Server-benchmark
 install:install_subtargets  FORCE
 
@@ -240,5 +240,5 @@ distdir: sub-Server-distdir FORCE
 
 sub-Server-distdir: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/The-Game/Server/Server.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Server
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Server
 

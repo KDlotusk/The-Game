@@ -8,7 +8,9 @@ LIBS += -pthread
 
 INCLUDEPATH += ../
 
-HEADERS += values.h
+HEADERS += \ 
+        values.h \
+        ConnectionManager.h
 
 SOURCES += \
         server.cpp \
