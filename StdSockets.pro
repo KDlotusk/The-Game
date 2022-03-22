@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = Server Client ServerAsync ClientAsync
+SUBDIRS = Server ServerAsync
 #Server.depends = .
 #Client.depends = .
 

@@ -2,6 +2,8 @@
 #include <sys/time.h>
 #include <thread>
 
+#include "values.h"
+
 #include "socket.h"
 #include "talk.h"
 
@@ -11,11 +13,9 @@ using namespace std;
 using namespace stdsock;
 
 int main(int argc, char* argv[]) {
-    // Talk com1, com2;
     Talk communications[NB_CLIENTS];
     thread threads[NB_CLIENTS];
 
-    int port;
     if (argc != 2 || sscanf(argv[1], "%d", &port) != 1) {
         printf("usage: %s port\n", argv[0]);
         // default port, if none provided
