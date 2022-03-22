@@ -1,3 +1,3 @@
 #pragma once
 
-int ports;
+int port;

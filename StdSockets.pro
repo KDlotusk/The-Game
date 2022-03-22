@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
-SUBDIRS = Server ServerAsync
+SUBDIRS = Server
 #Server.depends = .
-#Client.depends = .
 
 HEADERS += \
     socket.h\
