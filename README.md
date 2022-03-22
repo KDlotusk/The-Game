@@ -1,2 +1,4 @@
-# The Game IUT project
+# The Game - an IUT project
  
+> by Théo Labrosse - Nils Marreros
+
