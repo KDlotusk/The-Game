@@ -30,7 +30,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = StdSockets1.0.0
-DISTDIR = /home/nilmar/DUT/client-server/StdSockets/.tmp/StdSockets1.0.0
+DISTDIR = /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/.tmp/StdSockets1.0.0
 SUBTARGETS    =  \
 		sub-Server \
 		sub-Client \
@@ -40,104 +40,104 @@ SUBTARGETS    =  \
 
 sub-Server-qmake_all:  FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro
+	cd Server/ && $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro
 	cd Server/ && $(MAKE) -f Makefile qmake_all
 sub-Server: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile
 sub-Server-make_first: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile 
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile 
 sub-Server-all: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile all
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile all
 sub-Server-clean: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile clean
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile clean
 sub-Server-distclean: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile distclean
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile distclean
 sub-Server-install_subtargets: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile install
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile install
 sub-Server-uninstall_subtargets: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile uninstall
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile uninstall
 sub-Client-qmake_all:  FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro
+	cd Client/ && $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro
 	cd Client/ && $(MAKE) -f Makefile qmake_all
 sub-Client: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile
 sub-Client-make_first: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile 
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile 
 sub-Client-all: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile all
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile all
 sub-Client-clean: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile clean
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile clean
 sub-Client-distclean: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile distclean
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile distclean
 sub-Client-install_subtargets: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile install
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile install
 sub-Client-uninstall_subtargets: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile uninstall
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile uninstall
 sub-ServerAsync-qmake_all:  FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro
+	cd ServerAsync/ && $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro
 	cd ServerAsync/ && $(MAKE) -f Makefile qmake_all
 sub-ServerAsync: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile
 sub-ServerAsync-make_first: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile 
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile 
 sub-ServerAsync-all: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile all
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile all
 sub-ServerAsync-clean: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile clean
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile clean
 sub-ServerAsync-distclean: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile distclean
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile distclean
 sub-ServerAsync-install_subtargets: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile install
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile install
 sub-ServerAsync-uninstall_subtargets: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile uninstall
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile uninstall
 sub-ClientAsync-qmake_all:  FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro
+	cd ClientAsync/ && $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro
 	cd ClientAsync/ && $(MAKE) -f Makefile qmake_all
 sub-ClientAsync: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile
 sub-ClientAsync-make_first: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile 
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile 
 sub-ClientAsync-all: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile all
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile all
 sub-ClientAsync-clean: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile clean
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile clean
 sub-ClientAsync-distclean: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile distclean
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile distclean
 sub-ClientAsync-install_subtargets: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile install
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile install
 sub-ClientAsync-uninstall_subtargets: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile uninstall
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile uninstall
 
 Makefile: StdSockets.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -195,7 +195,6 @@ Makefile: StdSockets.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.c
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -266,7 +265,6 @@ Makefile: StdSockets.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.c
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -296,30 +294,30 @@ uninstall_subtargets: sub-Server-uninstall_subtargets sub-Client-uninstall_subta
 
 sub-Server-check:
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile check
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile check
 sub-Client-check:
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile check
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile check
 sub-ServerAsync-check:
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile check
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile check
 sub-ClientAsync-check:
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile check
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile check
 check: sub-Server-check sub-Client-check sub-ServerAsync-check sub-ClientAsync-check
 
 sub-Server-benchmark:
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -f Makefile benchmark
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -f Makefile benchmark
 sub-Client-benchmark:
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -f Makefile benchmark
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -f Makefile benchmark
 sub-ServerAsync-benchmark:
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile benchmark
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -f Makefile benchmark
 sub-ClientAsync-benchmark:
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile benchmark
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -f Makefile benchmark
 benchmark: sub-Server-benchmark sub-Client-benchmark sub-ServerAsync-benchmark sub-ClientAsync-benchmark
 install:install_subtargets  FORCE
 
@@ -332,21 +330,21 @@ dist: distdir FORCE
 
 distdir: sub-Server-distdir sub-Client-distdir sub-ServerAsync-distdir sub-ClientAsync-distdir FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
-	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_devicediscovery_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_edid_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_egl_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfsdeviceintegration_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eventdispatcher_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fb_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fontdatabase_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_glx_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_theme_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_vulkan_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf .qmake.stash /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qmake_use.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/file_copies.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf StdSockets.pro $(DISTDIR)/
+	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_devicediscovery_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_edid_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_egl_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfsdeviceintegration_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eventdispatcher_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fb_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fontdatabase_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_glx_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_theme_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_vulkan_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qmake_use.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/file_copies.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf StdSockets.pro $(DISTDIR)/
 
 sub-Server-distdir: FORCE
 	@test -d Server/ || mkdir -p Server/
-	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Server/Server.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Server
+	cd Server/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Server/Server.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Server
 
 sub-Client-distdir: FORCE
 	@test -d Client/ || mkdir -p Client/
-	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/Client/Client.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Client
+	cd Client/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/Client/Client.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/Client
 
 sub-ServerAsync-distdir: FORCE
 	@test -d ServerAsync/ || mkdir -p ServerAsync/
-	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ServerAsync/ServerAsync.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/ServerAsync
+	cd ServerAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ServerAsync/ServerAsync.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/ServerAsync
 
 sub-ClientAsync-distdir: FORCE
 	@test -d ClientAsync/ || mkdir -p ClientAsync/
-	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/nilmar/DUT/client-server/StdSockets/ClientAsync/ClientAsync.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/ClientAsync
+	cd ClientAsync/ && ( test -e Makefile || $(QMAKE) -o Makefile /mnt/c/Users/theol/Desktop/Maestro/cours/2A/S4/Informatique/client\ server/The\ Game/The-Game-IUT-project/ClientAsync/ClientAsync.pro ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/ClientAsync
 
