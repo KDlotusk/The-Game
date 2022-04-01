@@ -1,1 +1,8 @@
+
+# Combination below will ignore all files without extension
+*
+!*.*
+!*/
+
 *.o
+*/Server
