@@ -1,7 +1,3 @@
-#include <iostream>
-#include <sys/time.h>
-#include <thread>
-
 #include "ConnectionManager.h"
 
 #include "socket.h"
@@ -16,8 +12,8 @@ int main() {
     // Talk com1, com2;
     Talk communications[NB_CLIENTS];
     thread threads[NB_CLIENTS];
-
     ConnectionManager* connector = new ConnectionManager();
+  // ConnectionPoint* connector = new ConnectionPoint();
 
     cout << "Waiting clients on port " << connector->getPort() << " ..." << endl;
 
@@ -25,7 +21,7 @@ int main() {
     // and preparing communication points
     StreamSocket* clients[NB_CLIENTS];
     for (int i = 0; i < NB_CLIENTS; ++i) {
-        clients[i] = connector->getConnectionPoint->accept();
+        clients[i] = connector->getConnectionPoint()->accept();
         cout << "Client " << i << " accepted" << endl;
 
         communications[i].setReader(clients[i]->getSockfd());
