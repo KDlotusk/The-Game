@@ -1,47 +1,63 @@
 #include <iostream>
 #include <sys/time.h>
 #include <thread>
+#include <vector>
 
 #include "ConnectionManager.h"
 
 #include "socket.h"
 #include "talk.h"
-
-#define NB_CLIENTS 3
+#include "values.h"
 
 using namespace std;
 using namespace stdsock;
 
-int main() {
-    // Talk com1, com2;
-    Talk communications[NB_CLIENTS];
-    thread threads[NB_CLIENTS];
+void handleClient(
+    vector<StreamSocket*>& clients,
+    vector<Talk>& communications,
+    vector<thread>& threads,
+    int i
+) {
+    talk(communications[i]);
+    threads.erase(threads.begin() + i);
+    delete clients[i];
+}
 
-    ConnectionManager* connector = new ConnectionManager();
+int main(int argc, char* argv[]) {
+    if (argc != 2 || sscanf(argv[1], "%d", &port) != 1) {
+        printf("usage: %s port\n", argv[0]);
+        // default port, if none provided
+        port = 3490;
+    }
 
-    cout << "Waiting clients on port " << connector->getPort() << " ..." << endl;
+    ConnectionPoint server(port);
 
-    // accepting connexion
-    // and preparing communication points
-    StreamSocket* clients[NB_CLIENTS];
-    for (int i = 0; i < NB_CLIENTS; ++i) {
-        clients[i] = connector->getConnectionPoint->accept();
+    auto err = server.init();
+    if (err != 0) {
+        cout << strerror(err) << endl;
+        exit(err);
+    }
+
+    cout << "Waiting clients on port " << server.getPort() << " ..." << endl;
+
+    vector<StreamSocket*> clients;
+    vector<Talk> communications;
+    vector<thread> threads;
+
+    do {
+        clients.push_back(server.accept());
+        auto i = clients.size() - 1;
         cout << "Client " << i << " accepted" << endl;
 
-        communications[i].setReader(clients[i]->getSockfd());
-        communications[i].setWriter(-1);
+        Talk com;
+        com.setReader(clients[i]->getSockfd());
+        com.setWriter(-1);
+        communications.push_back(com);
 
-        threads[i] = thread(talk, ref(communications[i]));
-    }
+        threads.push_back(
+            thread(handleClient, ref(clients), ref(communications), ref(threads), i)
+        );
+    } while (true);
 
-    for (int i = 0; i < NB_CLIENTS; ++i) {
-        threads[i].join();
-        cout << "Client " << i << " left." << endl;
-        delete clients[i];
-    }
-
-    // closing connexion point
-    delete connector;
-    cout << "stop" << endl;
-    return 0;
+    return EXIT_SUCCESS;
 }

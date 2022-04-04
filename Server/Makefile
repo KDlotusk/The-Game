@@ -330,7 +330,8 @@ compiler_clean:
 
 server.o: server.cpp ConnectionManager.h \
 		../socket.h \
-		../talk.h
+		../talk.h \
+		values.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o server.o server.cpp
 
 socket.o: ../socket.cpp ../socket.h

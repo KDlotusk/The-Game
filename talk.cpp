@@ -23,7 +23,6 @@ void talk(Talk& param) {
             for (auto writefd : file_descriptors)
                 if (writefd != param.getReader()) {
                     err = write(writefd, &msg, 1);
-                    std::cout << "writefd : " << writefd << "\terr : " << err << std::endl;
                     if (err <= 0) {
                         has_err = true;
                         break;

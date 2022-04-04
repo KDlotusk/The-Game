@@ -1,1 +1,9 @@
+
+# Combination below will ignore all files without extension
+*
+!*.*
+!*/
+
 *.o
+Makefile
+.qmake.stash
