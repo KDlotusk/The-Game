@@ -6,7 +6,7 @@
 
 using namespace std;
 
-vector<string> options;
+
 map<string, int> requests {
     {"CONEC", CONEC },
     {"ACKIT", ACKIT },
@@ -31,7 +31,7 @@ map<string, int> requests {
 
 
 
-void fillOptions(string opt) {
+void __fillOptions(string opt, vector<string>& options) {
     
 
     string delimiter = " ";
@@ -45,9 +45,10 @@ void fillOptions(string opt) {
         opt.erase(0, pos + delimiter.length());
     }
     options.push_back(opt);
+
 }
 
-string request(string str) {
+string requestManager(string str) {
 
     int requestName = DEFAULT;
 
@@ -55,7 +56,8 @@ string request(string str) {
         requestName = requests[str.substr(0, 5)];
     
     string opt = str.substr(5);
-    fillOptions(opt);
+    vector<string> options;
+    __fillOptions(opt, options);
 
 
     switch(requestName) {

@@ -13,7 +13,7 @@ int main() {
     Talk communications[NB_CLIENTS];
     thread threads[NB_CLIENTS];
     ConnectionManager* connector = new ConnectionManager();
-  // ConnectionPoint* connector = new ConnectionPoint();
+
 
     cout << "Waiting clients on port " << connector->getPort() << " ..." << endl;
 
