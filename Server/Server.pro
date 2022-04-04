@@ -4,9 +4,9 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += thread
-LIBS += -pthread
+LIBS   += -pthread
 
-INCLUDEPATH += ../
+INCLUDEPATH += ./
 
 HEADERS += \ 
         values.h \
@@ -14,5 +14,5 @@ HEADERS += \
 
 SOURCES += \
         server.cpp \
-        ../socket.cpp \
-        ../talk.cpp
+        socket.cpp \
+        communication.cpp
