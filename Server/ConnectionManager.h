@@ -5,7 +5,6 @@
 #include <thread>
 
 #include "socket.h"
-#include "talk.h"
 
 
 using namespace std;
@@ -13,6 +12,7 @@ using namespace stdsock;
 
 class ConnectionManager {
     int port;
+
     ConnectionPoint* connectionPoint;
 
 
