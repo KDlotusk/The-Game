@@ -5,22 +5,19 @@
 
 #include "ConnectionManager.h"
 
+#include "communication.hpp"
 #include "socket.h"
-#include "talk.h"
 #include "values.h"
 
 using namespace std;
-using namespace stdsock;
+using namespace theGame;
 
-void handleClient(
-    vector<StreamSocket*>& clients,
-    vector<Talk>& communications,
-    vector<thread>& threads,
-    int i
-) {
-    talk(communications[i]);
-    threads.erase(threads.begin() + i);
-    delete clients[i];
+namespace theGame {
+    void handleClient(stdsock::StreamSocket* client) {
+        interactWithClient(client->getSockfd());
+        cout << "Client " << client->getSockfd() << " left" << endl;
+        delete client;
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -30,7 +27,7 @@ int main(int argc, char* argv[]) {
         port = 3490;
     }
 
-    ConnectionPoint server(port);
+    stdsock::ConnectionPoint server(port);
 
     auto err = server.init();
     if (err != 0) {
@@ -38,25 +35,16 @@ int main(int argc, char* argv[]) {
         exit(err);
     }
 
+    serverFd = server.getSockfd();
     cout << "Waiting clients on port " << server.getPort() << " ..." << endl;
 
-    vector<StreamSocket*> clients;
-    vector<Talk> communications;
-    vector<thread> threads;
+    vector<stdsock::StreamSocket*> clients;
 
     do {
-        clients.push_back(server.accept());
-        auto i = clients.size() - 1;
-        cout << "Client " << i << " accepted" << endl;
+        auto client = server.accept();
+        cout << "Client " << client->getSockfd() << " accepted" << endl;
 
-        Talk com;
-        com.setReader(clients[i]->getSockfd());
-        com.setWriter(-1);
-        communications.push_back(com);
-
-        threads.push_back(
-            thread(handleClient, ref(clients), ref(communications), ref(threads), i)
-        );
+        thread(handleClient, client).detach();
     } while (true);
 
     return EXIT_SUCCESS;
