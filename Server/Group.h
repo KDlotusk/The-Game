@@ -37,6 +37,7 @@ public:
     }
 
     VirtualClient getGameMaster() { return clients[0]; }
+    long getId() {return idGroup;} 
 
     void addClient(VirtualClient client) {
         clients.push_back(client);
