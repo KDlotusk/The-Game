@@ -46,5 +46,6 @@ public:
     bool isEmpty() {
         return cards.empty();
     }
+    int size() { return cards.size(); }
 
 };
