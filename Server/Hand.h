@@ -16,4 +16,4 @@ public:
             cards.erase(cards.begin());
         }
     }
-};
+    };

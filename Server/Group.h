@@ -80,14 +80,25 @@ public:
         return false;
     }
 
-    void play(long requestId, int pile, int cardId) { // TODO correct accordingly
-        piles[pile].playCard(Card(cardNumber));
+    int play(long requestId, int pile, int cardId) { // TODO correct accordingly
 
-        for(int k = 0; k < clients.size(); k++) {
-            if(clients[k].isRequestFromThisPlayer(requestId)) { //TODO check, is this better like that or should I use currentPlayer ?
-                clients[k].incrementNbCardsPlayed();
+        if(clients[currentPlayer].isRequestFromThisPlayer(requestId)) {
+            if(clients[currentPlayer].getHand()->size() > cardId && cardId > 0) {
+                int cardNumber = clients[currentPlayer].getHand()->getCard(cardId).getValue();
+
+                piles[pile].playCard(Card(cardNumber));
+
+                clients[currentPlayer].incrementNbCardsPlayed();
+            }
+            else {
+                return 414;
             }
         }
+        else {
+            return 303;
+        }
+
+        return 0;
     }
 
     void endOfTurn() {
