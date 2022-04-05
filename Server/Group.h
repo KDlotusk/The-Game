@@ -80,7 +80,7 @@ public:
         return false;
     }
 
-    void play(int pile, int cardNumber, long requestId) {
+    void play(long requestId, int pile, int cardId) { // TODO correct accordingly
         piles[pile].playCard(Card(cardNumber));
 
         for(int k = 0; k < clients.size(); k++) {

@@ -91,8 +91,26 @@ public:
         vector<string> options;
         fillOptions(opt, options);
         if(options.size() == 0) {
-            return "ERROR 411"; //aucune requête n'a été reçus
+            return "ERROR 411"; //aucune option n'a été reçu
         }
+
+
+        int requestID; 
+        
+        try {
+            requestID = stoi(options[0]);
+        }
+        catch(exception e) {
+            return "ERROR 403"; // l'id de la requête n'est pas valable
+        }
+        
+
+        Group* groupTarget = getGroupForRequest(requestID);
+
+        if(groupTarget == nullptr) {
+            return "ERROR 412"; // utilisateur non reconnu
+        }
+
 
         switch(requestName) {
             case CONEC: 
@@ -141,8 +159,19 @@ public:
                 return "UTURN";
                 break;
             case PLAY_: 
+            // play(long requestId, int pile, int cardId)
 
-                
+                if(options.size() < 3) {
+                    return "ERROR 415"; // certaine valeur d'option sont manquante
+                }
+
+                try{
+                    groupTarget->play(requestID, stoi(options[1]), stoi(options[2]));
+                }
+                catch(exception e){
+                    return "ERROR 410"; // mauvaise valeur d'option envoyé
+                }
+
                 break;
             case SNDHD: 
                 return "SNDHD";
