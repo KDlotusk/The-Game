@@ -105,11 +105,7 @@ public:
         }
         
 
-        Group* groupTarget = getGroupForRequest(requestID);
-
-        if(groupTarget == nullptr) {
-            return "ERROR 412"; // utilisateur non reconnu
-        }
+       
 
 
         switch(requestName) {
@@ -159,19 +155,27 @@ public:
                 return "UTURN";
                 break;
             case PLAY_: 
-            // play(long requestId, int pile, int cardId)
+                Group* groupTarget = getGroupForRequest(requestID);
+                if(groupTarget == nullptr) {
+                    return "ERROR 416"; // utilisateur n'est pas en jeux
+                }
 
                 if(options.size() < 3) {
                     return "ERROR 415"; // certaine valeur d'option sont manquante
                 }
 
                 try{
-                    groupTarget->play(requestID, stoi(options[1]), stoi(options[2]));
+                    int returnValue = groupTarget->play(requestID, stoi(options[1]), stoi(options[2]));
+
+                    if(returnValue != 0) {
+                        return "ERROR " + to_string(returnValue);
+                    }
                 }
                 catch(exception e){
                     return "ERROR 410"; // mauvaise valeur d'option envoyé
                 }
 
+                return ""; //TODO should send the piles (to everyone) AND the new hand of the player (solely for the new player)
                 break;
             case SNDHD: 
                 return "SNDHD";
