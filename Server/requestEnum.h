@@ -19,6 +19,10 @@ enum request {
     SNDHD,
     SNDSK,
     MESSG,
+    CNCAT,
+    SRTGM,
+    CTPLY,
+    ENTRN,
     
     DEFAULT
 };

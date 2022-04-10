@@ -14,7 +14,7 @@ private:
     int nbCardsPerHand = 6;
 
     long idGroup;
-    vector<VirtualClient> clients;
+    vector<VirtualClient*> clients;
     Stack stack;
 
     array<Pile, 4> piles = { Pile(true), Pile(true), Pile(false), Pile(false) };
@@ -23,6 +23,8 @@ private:
 
     int currentPlayer = 0;
 
+    int asyncCode = -1;
+
 public:
     Group(long _idGroup) {
         idGroup = _idGroup;
@@ -30,28 +32,49 @@ public:
 
     bool isRequestFromThisGroup(long requestId) {
         for(int k = 0; k < clients.size(); k++) {
-            if(clients[k].isRequestFromThisPlayer(requestId))
+            if(clients[k]->isRequestFromThisPlayer(requestId))
                 return true;
         }
         return false;
     }
 
-    VirtualClient getGameMaster() { return clients[0]; }
+    VirtualClient* getGameMaster() { return clients[0]; }
     long getId() {return idGroup;} 
+    int getStatus() {return status;}
 
-    void addClient(VirtualClient client) {
+    void addClient(VirtualClient* client) {
         clients.push_back(client);
     }
     void removeClient(long id) {
         for(int k = 0; k < clients.size(); k++) {
-            if(clients[k].getId() == id ) {
+            if(clients[k]->getId() == id ) {
                 clients.erase(clients.begin() + k);
             }
         }
     }
 
+    vector<VirtualClient*> getClients() {
+        return clients;
+    }
+
     int getNbOfClient() {
         return clients.size();
+    }
+
+    int getCurrentClient() {
+        return currentPlayer;
+    }
+
+    int isStackEmpty() {
+        return stack.isEmpty();
+    }
+
+    int getAsyncCode() {
+        return asyncCode;
+    }
+
+    void setAsyncCode(int _asyncCode) {
+        asyncCode = _asyncCode;
     }
 
     bool startGame() {
@@ -69,7 +92,7 @@ public:
             }
 
             for(int k = 0;  k < clients.size(); k++) {
-                clients[k].addCards(stack.draw(nbCardsPerHand));
+                clients[k]->addCards(stack.draw(nbCardsPerHand));
             }
 
             status = 1;
@@ -82,30 +105,82 @@ public:
 
     int play(long requestId, int pile, int cardId) { // TODO correct accordingly
 
-        if(clients[currentPlayer].isRequestFromThisPlayer(requestId)) {
-            if(clients[currentPlayer].getHand()->size() > cardId && cardId > 0) {
-                int cardNumber = clients[currentPlayer].getHand()->getCard(cardId).getValue();
+        if(status == 1) {
+            if(clients[currentPlayer]->isRequestFromThisPlayer(requestId)) {
+                if(clients[currentPlayer]->getHand()->size() > cardId && cardId > 0) {
+                    int cardNumber = clients[currentPlayer]->getHand()->getCard(cardId).getValue();
 
-                piles[pile].playCard(Card(cardNumber));
+                    piles[pile].playCard(Card(cardNumber));
 
-                clients[currentPlayer].incrementNbCardsPlayed();
+                    clients[currentPlayer]->incrementNbCardsPlayed();
+                }
+                else {
+                    return 414; // cette carte n'existe pas
+                }
             }
             else {
-                return 414;
+                return 303; // Ce n'est pas votre tour
             }
         }
         else {
-            return 303;
+            return 205; // la partie n'est pas en cours
         }
+        
 
         return 0;
     }
 
     void endOfTurn() {
-        clients[currentPlayer].addCards(stack.draw(clients[currentPlayer].getCardsPlayed())); // we draw the cards for the current player
+        clients[currentPlayer]->addCards(stack.draw(clients[currentPlayer]->getCardsPlayed())); // we draw the cards for the current player
 
         currentPlayer = (currentPlayer+1)%clients.size();
     }
-    
 
+    string sendPiles() {
+        string str = "4";
+
+        for(int k = 0; k < 4; k++) {
+            str += " " + piles[k].asRequest();
+        }
+
+        return str;
+    }
+
+    string sendHandCurrentPlayer() {
+        return clients[currentPlayer]->asRequest();
+    }
+
+    int getFileDescriptorCurrentPLayer() {
+        return clients[currentPlayer]->getFileDescriptor();
+    }
+
+    vector<int> getAllFileDescriptor() {
+        vector<int> fds;
+
+        for(int k = 0; k < clients.size() ; k++) {
+            fds.push_back(clients[k]->getFileDescriptor());
+        }
+
+        return fds;
+    }
+
+    vector<int> getAllFileDescriptorButCurrentPLayer() {
+        vector<int> fds;
+
+        for(int k = 0; k < clients.size() ; k++) {
+            if(k != currentPlayer)
+                fds.push_back(clients[k]->getFileDescriptor());
+        }
+
+        return fds;
+    }
+
+    int nbCardsNotPLayed() {
+        return 0; // TODO
+    }
+
+    int endOfGame() {
+        status = 2;
+        return nbCardsNotPLayed();
+    }
 };

@@ -22,4 +22,7 @@ public:
         cards.insert(cards.begin(), card);
     }
 
+    string asRequest() override {
+        return to_string(getTopCard().getValue());
+    }
 };

@@ -9,12 +9,15 @@ private:
     Hand* hand = new Hand(vector<Card>());
     int cardsPlayed = 0;
 
+    int fileDescriptor;
+
 
 public:
-    VirtualClient(long _id) {
+    VirtualClient(long _id, int _fileDescriptor) {
         id = _id;
         lastRequestId = id +1;
         
+        fileDescriptor = _fileDescriptor;
     }
     ~VirtualClient() {
         delete hand;
@@ -29,6 +32,16 @@ public:
     }
     int getCardsPlayed() {
         return cardsPlayed;
+    }
+    int getFileDescriptor() {
+        return fileDescriptor;
+    }
+    int getLastRequestId() {
+        return lastRequestId;
+    }
+
+    void setLastRequestId(int _lastRequestId) {
+        lastRequestId = _lastRequestId;
     }
 
     void addCards(vector<Card> cards) {
@@ -53,6 +66,10 @@ public:
 
     void cardsPlayedTo0() {
         cardsPlayed = 0;
+    }
+
+    string asRequest() {
+        return hand->asRequest();
     }
 
 

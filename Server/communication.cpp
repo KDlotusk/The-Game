@@ -3,6 +3,7 @@
 #include <string>
 #include <string.h>
 #include <unistd.h>
+#include <utility>
 #include <vector>
 
 #include "RequestManager.cpp"
@@ -14,6 +15,8 @@ namespace theGame {
     int serverFd;
     std::vector<int> clientsFds;
 
+    RequestManager requestManager;
+
     void interactWithClient(int reader) {
         char msg[SOCKET_BUFFER_SIZE] = { 0 };
         int err;
@@ -21,12 +24,19 @@ namespace theGame {
         clientsFds.push_back(reader);
 
         do {
+
             err = read(reader, msg, SOCKET_BUFFER_SIZE);
             if (err <= 0) break;
 
-            std::string res = requestManager(std::string(msg));
-            err = write(reader, res.c_str(), res.length());
-            if (err <= 0) break;
+            ReturnRequest* response = requestManager.request(std::string(msg), reader);
+
+            while(response->hasNext()) {
+            pair<std::string, int> message = response->readNext();
+                err = write(message.second, message.first.c_str(), message.first.length());
+                if (err <= 0) break;
+            }  
+
+            if (err <= 0) break;          
 
         } while (true);
 

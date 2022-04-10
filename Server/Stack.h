@@ -48,4 +48,14 @@ public:
     }
     int size() { return cards.size(); }
 
+    virtual string asRequest() {
+        string str = to_string(cards.size());
+
+        for(int k = 0; k < cards.size(); k++) {
+            str+= " " + cards[k].getValue();
+        }
+
+        return str;
+    }
+
 };
