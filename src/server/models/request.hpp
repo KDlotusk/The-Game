@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "Group.hpp"
+#include "clients/Group.hpp"
 
 namespace theGame {
     enum request {
