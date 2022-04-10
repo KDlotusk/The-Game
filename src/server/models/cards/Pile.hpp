@@ -13,6 +13,8 @@ namespace theGame {
         const Card& getTopCard() const;
 
         void playCard(const Card& card);
+
+        const std::string& asRequest()const override ;
     };
 }  // namespace theGame
 

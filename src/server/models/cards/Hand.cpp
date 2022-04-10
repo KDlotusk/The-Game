@@ -9,7 +9,7 @@ namespace theGame {
     void Hand::addCard(const Card& __card) { _cards.push_back(__card); }
     void Hand::removeCard(const int& __i) {
         if (__i > 0 && __i < _cards.size()) {
-            auto tmp = _cards[__i];
+            Card tmp = _cards[__i];
             _cards.erase(_cards.begin());
         }
     }

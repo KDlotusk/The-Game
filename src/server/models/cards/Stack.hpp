@@ -21,6 +21,10 @@ namespace theGame {
         const std::vector<Card>& draw(const int& i = 1);
 
         const bool& isEmpty() const;
+
+        const int& size() const;
+
+        virtual const std::string& asRequest() const;
     };
 }  // namespace theGame
 

@@ -26,6 +26,8 @@ namespace theGame {
 
         int _currentPlayer = 0;
 
+        int _asyncCode = -1;
+
     public:
         Group(long idGroup);
 
@@ -33,17 +35,35 @@ namespace theGame {
 
         const VirtualClient& getGameMaster() const;
         const long& getId() const;
+        const int& getStatus() const;
 
         void addClient(const VirtualClient& client);
         void removeClient(const long& id);
 
+        vector<VirtualClient> getClients();
         const int& getNbOfClient() const;
+        const int& getCurrentClient() const;
+        const bool& isStackEmpty() const;
+        const int& getAsyncCode() const;
+        const int& getFileDescriptorCurrentPlayer() const;
+
+        void setAsyncCoe(const int& asyncCode);
+
+        const std::string& sendPiles() const;
+        const std::string& sendHandCurrentPlayer() const;
+        const std::vector<int>& getAllFileDescriptor() const;
+        const std::vector<int>& getAllFileDescriptorButCurrentPlayer() const;
+        const int& nbCardsNotPLayed() const;
+
 
         const bool& startGame();
 
         void play(const int& pile, const int& cardNumber, const long& requestId);
 
         void endOfTurn();
+        int endOfGame();
+
+        
     };
 }  // namespace theGame
 
