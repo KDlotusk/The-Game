@@ -1,0 +1,9 @@
+BasedOnStyle: Google
+AccessModifierOffset: -4
+AlignAfterOpenBracket: AlwaysBreak
+ColumnLimit: 88
+Cpp11BracedListStyle: false
+FixNamespaceComments: true
+IndentWidth: 4
+NamespaceIndentation: All
+SpacesBeforeTrailingComments: 2

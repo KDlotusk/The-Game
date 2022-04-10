@@ -1,33 +1,33 @@
-#include <iostream>
+#include "server.hpp"
+
 #include <sys/time.h>
+
+#include <iostream>
 #include <thread>
 #include <vector>
 
-#include "ConnectionManager.h"
-
+#include "ConnectionManager.hpp"
 #include "communication.hpp"
-#include "socket.h"
-#include "values.h"
 
 using namespace std;
-using namespace theGame;
 
 namespace theGame {
-    void handleClient(stdsock::StreamSocket* client) {
-        interactWithClient(client->getSockfd());
-        cout << "Client " << client->getSockfd() << " left" << endl;
-        delete client;
+    int port;
+    void handleClient(StreamSocket* __client) {
+        interactWithClient(__client->getSockfd());
+        cout << "Client " << __client->getSockfd() << " left" << endl;
+        delete __client;
     }
-}
+}  // namespace theGame
+
+using namespace theGame;
 
 int main(int argc, char* argv[]) {
     if (argc != 2 || sscanf(argv[1], "%d", &port) != 1) {
-        printf("usage: %s port\n", argv[0]);
-        // default port, if none provided
-        port = 3490;
+        port = 3490;  // default port, if none provided
     }
 
-    stdsock::ConnectionPoint server(port);
+    ConnectionPoint server(port);
 
     auto err = server.init();
     if (err != 0) {
@@ -35,10 +35,9 @@ int main(int argc, char* argv[]) {
         exit(err);
     }
 
-    serverFd = server.getSockfd();
     cout << "Waiting clients on port " << server.getPort() << " ..." << endl;
 
-    vector<stdsock::StreamSocket*> clients;
+    vector<StreamSocket*> clients;
 
     do {
         auto client = server.accept();
