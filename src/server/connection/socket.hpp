@@ -1,42 +1,45 @@
 /**
-* @file socket.h
-* @author FJa
-* @version 1.0
-* @date 2020-02-03
-* @details freely inspired from @link https://github.com/davidsteinsland/cpp-sockets @endlink
-* see also forked project @link https://github.com/Victini378/Cross-Platform_CppSockets @endlink
-* for a updated portable version.
-*/
-#ifndef SOCKET_H
-#define SOCKET_H
+ * @file socket.hpp
+ * @author FJa
+ * @version 1.0
+ * @date 2020-02-03
+ * @details freely inspired from @link https://github.com/davidsteinsland/cpp-sockets
+ * @endlink see also forked project @link
+ * https://github.com/Victini378/Cross-Platform_CppSockets @endlink for a updated
+ * portable version.
+ */
+#pragma once
 
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
+#ifndef THEGAME_SERVER_SOCKET_HPP
+#define THEGAME_SERVER_SOCKET_HPP
+
 #include <arpa/inet.h>
 #include <fcntl.h>
-#include <string>
-#include <cstring>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 #include <unistd.h>
+
 #include <cerrno>
+#include <cstring>
+#include <string>
 
 #define DEFAULT_SOCKET_BUFFER 128
 
 /**
- * @namespace stdsock
+ * @namespace theGame
  * used to define a generic Socket API
  * in POSIX style
  */
-namespace stdsock {
-
+namespace theGame {
     /**
      * @brief Generic Socket class
      * that is specialized for Connection and Transport
      */
     class Socket {
     protected:
-        int sockfd; //!< file descriptor for socket
-        struct sockaddr_in address; //!< POSIX address struct
+        int sockfd;                  //!< file descriptor for socket
+        struct sockaddr_in address;  //!< POSIX address struct
     public:
         /**
          * @brief Socket, construct a socket on
@@ -70,23 +73,17 @@ namespace stdsock {
          * @brief getSockfd
          * @return sockfd, the file descriptor
          */
-        virtual int getSockfd() const {
-            return sockfd;
-        }
+        virtual int getSockfd() const { return sockfd; }
         /**
          * @brief getAdress
          * @return the POSIX sockaddr_in struct
          */
-        virtual const struct sockaddr_in& getAdress() const {
-            return address;
-        }
+        virtual const struct sockaddr_in& getAdress() const { return address; }
         /**
          * @brief getPort, extract port from sockaddr_in struct
          * @return port
          */
-        virtual int getPort() const {
-            return ntohs(address.sin_port);
-        }
+        virtual int getPort() const { return ntohs(address.sin_port); }
         /**
          * @brief getPort, extract IP from sockaddr_in struct
          * @return dotted address (IP)
@@ -94,7 +91,8 @@ namespace stdsock {
         virtual std::string getIP() const {
             //        return inet_ntoa(address.sin_addr); // ipv4 only
             char ip[INET_ADDRSTRLEN];
-            inet_ntop(address.sin_family, &(address.sin_addr), ip, INET_ADDRSTRLEN); // ipv4 or ipv6
+            inet_ntop(address.sin_family, &(address.sin_addr), ip,
+                      INET_ADDRSTRLEN);  // ipv4 or ipv6
             return std::string(ip);
         }
         /**
@@ -102,14 +100,11 @@ namespace stdsock {
          * ie. with a valid file descriptor
          * @return true if valid, false otherwise
          */
-        virtual bool valid() const {
-            return sockfd != -1;
-        }
+        virtual bool valid() const { return sockfd != -1; }
         /**
          * @brief close the socket, by closing the file descriptor if opened
          */
         virtual void close();
-
     };
 
     /**
@@ -148,7 +143,8 @@ namespace stdsock {
          * @brief connect, Open a connection on the socket file descriptor
          * to peer at address.
          * @return 0 on success, -1 for errors
-         * @remark as only used on client side, maybe woth to separate in a specialized class
+         * @remark as only used on client side, maybe woth to separate in a specialized
+         * class
          */
         int connect();
 
@@ -189,8 +185,6 @@ namespace stdsock {
          * @return amount of bytes actually sent, or -1
          */
         int send(const char* buf, int len, int flags = 0);
-
-
     };
 
     /**
@@ -200,6 +194,7 @@ namespace stdsock {
     class ConnectionPoint : public Socket {
     private:
         int backlog;
+
     public:
         /**
          * @brief ServerSocket, constructs a listening socket on the specified port.
@@ -218,20 +213,18 @@ namespace stdsock {
          * and prepare to listen to client connexions
          * @remark calls bind()+listen()
          * @return error code if there was a problem
-        */
+         */
         int init();
         /**
          * @brief bind, binds the file descriptor to the current port and address
          * @return error code if there was a problem
-        */
+         */
         int bind();
         /**
          * @brief listen, prepare to listen to client connexions
          * @return error code if there was a problem
-        */
+         */
         int listen();
-
     };
-
-}
-#endif // SOCKET_H
+}  // namespace theGame
+#endif  // THEGAME_SERVER_SOCKET_HPP

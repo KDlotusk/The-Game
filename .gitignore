@@ -1,9 +1,9 @@
-
-# Combination below will ignore all files without extension
-*
-!*.*
-!*/
-
 *.o
 Makefile
 .qmake.stash
+
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+bin/server
+
+tmp
