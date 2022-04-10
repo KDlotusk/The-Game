@@ -15,20 +15,18 @@ public:
     ReturnRequest() {};
 
     ReturnRequest(string request, int fileDescriptor) {
+        request += "\n";
         addNext(request, fileDescriptor);
     }
 
-    ReturnRequest( vector<pair<string, int>> _requests) {
-        requests = _requests;
-    }
-
     void addNext(string request, int fileDescriptor) {
+        request += "\n";
         requests.push_back(make_pair(request, fileDescriptor));
     }
 
     bool isEmpty() { return requests.empty(); }
 
-    bool hasNext() { return isEmpty(); }
+    bool hasNext() { return !isEmpty(); }
 
     pair<string, int> readNext() {
         if(!isEmpty()) {

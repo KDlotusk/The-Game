@@ -28,12 +28,20 @@ namespace theGame {
             err = read(reader, msg, SOCKET_BUFFER_SIZE);
             if (err <= 0) break;
 
+            std::cout << " < [" + std::to_string(reader) + "] " + msg << std::endl;
+
             ReturnRequest* response = requestManager.request(std::string(msg), reader);
+
 
             while(response->hasNext()) {
             pair<std::string, int> message = response->readNext();
                 err = write(message.second, message.first.c_str(), message.first.length());
-                if (err <= 0) break;
+                if (err <= 0) {
+                    std::cout << "error" << std::endl;
+                    break;
+                }
+
+                std::cout << " > [" + std::to_string(message.second) + "] " + message.first << std::endl;
             }  
 
             if (err <= 0) break;          

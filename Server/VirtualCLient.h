@@ -14,7 +14,7 @@ private:
 
 public:
     VirtualClient(long _id, int _fileDescriptor) {
-        id = _id;
+        id = (1 + _id) * 100000 + 1;
         lastRequestId = id +1;
         
         fileDescriptor = _fileDescriptor;
@@ -55,7 +55,7 @@ public:
     }
 
     bool isRequestFromThisPlayer(long requestId) {
-        if(id%1000 == requestId%1000)
+        if(id/1000 == requestId/1000)
             return true;
         return false;
     }

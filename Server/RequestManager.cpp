@@ -40,8 +40,10 @@ private:
         {"ENTRN", ENTRN}
     };
 
-    void fillOptions(string opt, vector<string>& options) {
-        
+    vector<string> options;
+
+    void fillOptions(string opt) {
+        options.clear();
 
         string delimiter = " ";
 
@@ -54,6 +56,8 @@ private:
             opt.erase(0, pos + delimiter.length());
         }
         options.push_back(opt);
+
+        options.erase(options.begin());
     }
 
 public:
@@ -106,7 +110,7 @@ public:
         vector<pair<int, int>> idGroupsPossible;
         for(int k = 0; k < groups.size(); k++) {
             if(idGroupsPossible.size() < 10) {
-                if(groups[k]->getStatus() == 1) {
+                if(groups[k]->getStatus() == 0) {
                     idGroupsPossible.push_back(make_pair(groups[k]->getId(), groups[k]->getNbOfClient()));
                 }
             }
@@ -158,20 +162,20 @@ public:
             requestName = requests[str.substr(0, 5)];
         
         string opt = str.substr(5);
-        vector<string> options;
-        fillOptions(opt, options);
+        fillOptions(opt);
         if(options.size() == 0) {
             return new ReturnRequest("ERROR 411", fileDescriptor); //aucune option n'a été reçu
         }
 
 
-        int requestID; 
-        
+        int requestID;         
         try {
             requestID = stoi(options[0]);
         }
         catch(exception e) {
-            return new ReturnRequest("ERROR 403", fileDescriptor);// l'id de la requête n'est pas valable
+
+            if(requestName != CONEC)
+                return new ReturnRequest("ERROR 403", fileDescriptor);// l'id de la requête n'est pas valable
         }
 
         ReturnRequest* request;
@@ -190,12 +194,11 @@ public:
         switch(requestName) {
             case CONEC: {
                     VirtualClient* client = createClient(fileDescriptor);
-                    return new ReturnRequest("VALID " + client->getId(), fileDescriptor);
+                    return new ReturnRequest("VALID " + to_string(client->getId()) , fileDescriptor);
                 }
                 break;
             case SEEGM: {
-
-                return new ReturnRequest("SNDGM " + requestID + seeGroups(), fileDescriptor);
+                return new ReturnRequest("SNDGM " + to_string(client->getLastRequestId()) + " " + seeGroups(), fileDescriptor);
             }
                 break;
             case JOING: {
@@ -244,11 +247,14 @@ public:
                 }
 
                 request = new ReturnRequest();
-                vector<int> fds = groupTarget->getAllFileDescriptorButCurrentPLayer();
+
+                request->addNext("ASYNC " + to_string(groupTarget->getAsyncCode()), fileDescriptor);
+
+
+                groupTarget->removeClient(client->getId());
+                vector<int> fds = groupTarget->getAllFileDescriptor();
 
                 if(groupTarget->getStatus() == 0) {
-                    request->addNext("ASYNC " + groupTarget->getAsyncCode(), fileDescriptor);
-
                     
                     for(int k = 0; k < fds.size(); k++) {
                         request->addNext("GMINF " + to_string(groupTarget->getAsyncCode()) + " " + to_string(groupTarget->getNbOfClient()-1), fds[k]);
@@ -259,7 +265,6 @@ public:
                     }   
                 }
 
-                groupTarget->removeClient(client->getId());
 
                 if(groupTarget->getStatus() == 1) {
                     for(int k = 0; k < fds.size(); k++) {
@@ -275,8 +280,16 @@ public:
                 Group* group = createGroup();
                 group->addClient(client);
 
-                return new ReturnRequest("VALID " + to_string(client->getLastRequestId()) + " " + to_string(group->getId()), fileDescriptor);
-                    }
+                if(group->getAsyncCode() == -1) {
+                    group->setAsyncCode(group->getId() + client->getLastRequestId());
+                }
+
+                request= new ReturnRequest("VALID " + to_string(client->getLastRequestId()) + " " + to_string(group->getId()), fileDescriptor);
+                request->addNext ("ASYNC " + to_string(client->getLastRequestId()) + " " + to_string(group->getAsyncCode()), fileDescriptor);               
+
+
+                return request;                    
+            }
                 break;
             case SRTGM: {
                 Group* group = getGroupForRequest(requestID);
@@ -296,7 +309,7 @@ public:
                     string requestSNDHD = "SNDHD " + to_string(clients[k]->getLastRequestId()) + " " + clients[k]->asRequest();
 
 
-                    request->addNext("ASYNC " + group->getAsyncCode(), clients[k]->getFileDescriptor());
+                    request->addNext("ASYNC " + to_string(group->getAsyncCode()), clients[k]->getFileDescriptor());
                     request->addNext("START " + to_string(clients[k]->getLastRequestId()) + " " + requestSNDSK + " " + requestSNDHD, clients[k]->getFileDescriptor());
                 }
 
@@ -369,8 +382,8 @@ public:
                 }
 
                 group->endOfTurn();
-                request = new ReturnRequest("ACKIT " + client->getLastRequestId(), client->getFileDescriptor());
-                request->addNext("UTURN " + group->getClients()[group->getCurrentClient()]->getLastRequestId(), group->getClients()[group->getCurrentClient()]->getFileDescriptor());
+                request = new ReturnRequest("ACKIT " + to_string(client->getLastRequestId()), client->getFileDescriptor());
+                request->addNext("UTURN " + to_string(group->getClients()[group->getCurrentClient()]->getLastRequestId()), group->getClients()[group->getCurrentClient()]->getFileDescriptor());
                 
 
                 //send ENDRW if needed

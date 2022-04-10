@@ -27,7 +27,7 @@ private:
 
 public:
     Group(long _idGroup) {
-        idGroup = _idGroup;
+        idGroup = (1 + _idGroup) * 100000 + 1;
     }
 
     bool isRequestFromThisGroup(long requestId) {
