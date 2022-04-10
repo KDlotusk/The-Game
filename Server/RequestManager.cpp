@@ -257,7 +257,7 @@ public:
                 if(groupTarget->getStatus() == 0) {
                     
                     for(int k = 0; k < fds.size(); k++) {
-                        request->addNext("GMINF " + to_string(groupTarget->getAsyncCode()) + " " + to_string(groupTarget->getNbOfClient()-1), fds[k]);
+                        request->addNext("GMINF " + to_string(groupTarget->getAsyncCode()) + " " + to_string(groupTarget->getNbOfClient()), fds[k]);
                     }
 
                     if(groupTarget->getNbOfClient() == 0) {
