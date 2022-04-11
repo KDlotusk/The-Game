@@ -7,57 +7,59 @@
 #include <vector>
 
 #include "clients/Group.hpp"
+#include "ReturnRequest.hpp"
 
 namespace theGame {
     enum request {
-        CONEC,
-        ACKIT,
-        ERROR,
-        VALID,
-        ALIVE,
-        SEEGM,
-        JOING,
-        LEAVE,
-        MAKEG,
-        SNDGM,
-        GMINF,
-        ASYNC,
-        START,
-        ENDGM,
-        ENDRW,
-        UTURN,
-        PLAY_,
-        SNDHD,
-        SNDSK,
-        MESSG,
+        ACKIT, ALIVE, ASYNC, CNCAT, 
+        CONEC, CTPLY, ENDGM, ENDRW, 
+        ERROR, ENTRN, GMINF, JOING, 
+        LEAVE, MAKEG, MESSG, PLAY_, 
+        SEEGM, SNDGM, SNDHD, SNDSK, 
+        SRTGM, START, UTURN, VALID, 
 
         DEFAULT
     };
 
     class RequestManager {
     private:
+        vector<string> _options;
         std::vector<theGame::Group*> _groups;
+        vector<VirtualClient*> _clients;
 
         std::map<std::string, int> _requests{
-            { "CONEC", CONEC }, { "ACKIT", ACKIT }, { "ERROR", ERROR },
-            { "VALID", VALID }, { "ALIVE", ALIVE }, { "SEEGM", SEEGM },
-            { "JOING", JOING }, { "LEAVE", LEAVE }, { "MAKEG", MAKEG },
-            { "SNDGM", SNDGM }, { "GMINF", GMINF }, { "ASYNC", ASYNC },
-            { "START", START }, { "ENDRW", ENDRW }, { "UTURN", UTURN },
-            { "PLAY_", PLAY_ }, { "SNDHD", SNDHD }, { "SNDSK", SNDSK },
-            { "MESSG", MESSG }
+            { "ACKIT", ACKIT }, { "ALIVE", ALIVE }, 
+            { "ASYNC", ASYNC }, { "CNCAT", CNCAT },
+            { "CONEC", CONEC }, { "CTPLY", CTPLY }, 
+            { "ENDGM", ENDGM }, { "ENDRW", ENDRW },
+            { "ERROR", ERROR }, { "ENTRN", ENTRN }, 
+            { "GMINF", GMINF }, { "JOING", JOING },
+            { "LEAVE", LEAVE }, { "MAKEG", MAKEG }, 
+            { "MESSG", MESSG }, { "PLAY_", PLAY_ },
+            { "SEEGM", SEEGM }, { "SNDGM", SNDGM }, 
+            { "SNDHD", SNDHD }, { "SNDSK", SNDSK },
+            { "SRTGM", SRTGM }, { "START", START }, 
+            { "UTURN", UTURN }, { "VALID", VALID },
         };
 
-        void _fillOptions(std::string opt, std::vector<std::string>& options) const;
+        void _fillOptions(std::string opt);
 
     public:
         ~RequestManager();
 
-        void createGroup();
+        theGame::Group* createGroup();
         void removeGroup(const long& id);
+        theGame::Group* findGroupById(const long& id) const;
+        theGame::Group* findGroupByRequest(const long& requestId) const;
 
-        const theGame::Group* getGroupForRequest(const long& requestId) const;
-        const std::string& request(const std::string& str);
+        const std::string& seeGroups() const;
+
+        theGame::VirtualClient* createClient(const int& fileDescriptor);
+        void removeClient(const long& id);
+        theGame::VirtualClient* findClientByRequest(const long& requestId) const;
+
+
+        theGame::ReturnRequest* request(const std::string& str, const int& fileDescriptor);
     };
 }  // namespace theGame
 

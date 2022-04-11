@@ -38,7 +38,7 @@ namespace theGame {
     const string& Stack::asRequest() const {
         string str = to_string(_cards.size());
 
-        for(int k = 0; k < _cards.size(); k++) {
+        for(size_t k = 0; k < _cards.size(); k++) {
             str+= " " + _cards[k].getValue();
         }
 

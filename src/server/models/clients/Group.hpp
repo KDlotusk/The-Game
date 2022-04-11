@@ -16,7 +16,7 @@ namespace theGame {
         int _nbCardsPerHand = 6;
 
         long _idGroup;
-        std::vector<VirtualClient> _clients;
+        std::vector<VirtualClient*> _clients;
         Stack _stack;
 
         std::array<Pile, 4> _piles = { Pile(true), Pile(true), Pile(false),
@@ -24,7 +24,7 @@ namespace theGame {
 
         int _status = 0;  // 1: in game / 0: loading / 2: end of game
 
-        int _currentPlayer = 0;
+        int _currentClient = 0;
 
         int _asyncCode = -1;
 
@@ -33,24 +33,25 @@ namespace theGame {
 
         const bool& isRequestFromThisGroup(const long& requestId) const;
 
-        const VirtualClient& getGameMaster() const;
+        VirtualClient* getGameMaster() const;
         const long& getId() const;
         const int& getStatus() const;
 
-        void addClient(const VirtualClient& client);
+        void addClient(VirtualClient* client);
         void removeClient(const long& id);
 
-        vector<VirtualClient> getClients();
+        vector<VirtualClient*> getClients() const;
         const int& getNbOfClient() const;
         const int& getCurrentClient() const;
         const bool& isStackEmpty() const;
         const int& getAsyncCode() const;
         const int& getFileDescriptorCurrentPlayer() const;
 
-        void setAsyncCoe(const int& asyncCode);
+        void setAsyncCode(const int& asyncCode);
 
         const std::string& sendPiles() const;
         const std::string& sendHandCurrentPlayer() const;
+        const int& getFileDescriptorCurrentPLayer() const;
         const std::vector<int>& getAllFileDescriptor() const;
         const std::vector<int>& getAllFileDescriptorButCurrentPlayer() const;
         const int& nbCardsNotPLayed() const;
@@ -58,10 +59,10 @@ namespace theGame {
 
         const bool& startGame();
 
-        void play(const int& pile, const int& cardNumber, const long& requestId);
+        const int& play(const long& requestId, const int& pile, const int& cardId);
 
         void endOfTurn();
-        int endOfGame();
+        const int& endOfGame();
 
         
     };

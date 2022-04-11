@@ -9,28 +9,34 @@
 namespace theGame {
     class VirtualClient {
     private:
-        long _id;  // 1000 000 par exemple
+        long _id;  // 100 000 for example
         long _lastRequestId;
-        Hand* _hand = new Hand(std::vector<Card>());
+        Hand* _hand;
         int _cardsPlayed = 0;
 
+        int _fileDescriptor;
+
     public:
-        VirtualClient(const long& id);
+        VirtualClient(const long& id, const int& fileDescriptor);
         ~VirtualClient();
 
         const long& getId() const;
         const Hand* getHand() const;
         const int& getCardsPlayed() const;
+        const int& getFileDescriptor() const;
+        const int& getLastRequestId() const;
 
-        void addCards(const std::vector<Card>& __cards);
-
+        void setLastRequestId(const int& lastRequestId);
         void incrementRequest();
 
         const bool& isRequestFromThisPlayer(const long& __requestId) const;
 
-        void incrementNbCardsPlayed();
+        void addCards(const std::vector<Card>& __cards);
 
+        void incrementNbCardsPlayed();
         void cardsPlayedTo0();
+
+        const string& asRequest() const;
     };
 }  // namespace theGame
 

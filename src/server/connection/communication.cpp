@@ -1,5 +1,3 @@
-#include "communication.hpp"
-
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -8,6 +6,8 @@
 #include <vector>
 
 #include "request.hpp"
+#include "communication.hpp"
+
 
 #define SOCKET_BUFFER_SIZE 1024
 
@@ -15,22 +15,30 @@ using namespace std;
 
 namespace theGame {
     vector<int> clientsFileDescriptors;
+    RequestManager requestManager;
 
     void interactWithClient(const int& __readerFileDescriptor) {
         char message[SOCKET_BUFFER_SIZE] = { 0 };
 
         clientsFileDescriptors.push_back(__readerFileDescriptor);
 
-        RequestManager requestManager;
-
         do {
             if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) break;
 
-            string serverAnswer = requestManager.request(string(message));
-            if (write(
-                    __readerFileDescriptor, serverAnswer.c_str(),
-                    serverAnswer.length()) <= 0)
-                break;
+            cout << " < [" + to_string(__readerFileDescriptor) + "] " + message << endl;
+
+            ReturnRequest* response = requestManager.request(string(message), __readerFileDescriptor);
+
+            while(response->hasNext()) {
+                pair<string, int> requestToSend = response->readNext();
+                if (write(
+                    requestToSend.second, requestToSend.first.c_str(),
+                    requestToSend.first.length()) <= 0)
+                        break;
+                
+                cout << " > [" + to_string(requestToSend.second) + "] " + requestToSend.first << endl;
+            }
+            
         } while (true);
 
         for (size_t i = 0; i < clientsFileDescriptors.size(); ++i)

@@ -25,6 +25,7 @@ HEADERS += \
         ../src/server/connection/communication.hpp \
         ../src/server/connection/socket.hpp \
         ../src/server/models/request.hpp \
+        ../src/server/models/ReturnRequest.hpp \
         ../src/server/models/cards/Card.hpp \
         ../src/server/models/cards/Hand.hpp \
         ../src/server/models/cards/Pile.hpp \
@@ -37,6 +38,7 @@ SOURCES += \
         ../src/server/connection/communication.cpp \
         ../src/server/connection/socket.cpp \
         ../src/server/models/request.cpp \
+        ../src/server/models/ReturnRequest.cpp \
         ../src/server/models/cards/Card.cpp \
         ../src/server/models/cards/Hand.cpp \
         ../src/server/models/cards/Pile.cpp \
