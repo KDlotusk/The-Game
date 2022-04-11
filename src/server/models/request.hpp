@@ -52,7 +52,7 @@ namespace theGame {
         theGame::Group* findGroupById(const long& id) const;
         theGame::Group* findGroupByRequest(const long& requestId) const;
 
-        const std::string& seeGroups() const;
+        std::string seeGroups() const;
 
         theGame::VirtualClient* createClient(const int& fileDescriptor);
         void removeClient(const long& id);

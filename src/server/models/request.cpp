@@ -30,10 +30,10 @@ namespace theGame {
 
 //public:
     RequestManager::~RequestManager() {
-        for(int k = 0; k < _groups.size(); k++) {
+        for(size_t k = 0; k < _groups.size(); k++) {
             delete _groups[k];
         }
-        for(int k = 0; k < _clients.size(); k++) {
+        for(size_t k = 0; k < _clients.size(); k++) {
             delete _clients[k];
         }
     }
@@ -63,7 +63,7 @@ namespace theGame {
         return nullptr;
     }
     Group* RequestManager::findGroupByRequest(const long& __requestId) const {
-        for(int k = 0; k < _groups.size(); k++) {
+        for(size_t k = 0; k < _groups.size(); k++) {
             if(_groups[k]->isRequestFromThisGroup(__requestId)) {
                 return _groups[k];
             }
@@ -71,7 +71,7 @@ namespace theGame {
         return nullptr;
     }
 
-    const string& RequestManager::seeGroups() const {
+    string RequestManager::seeGroups() const {
         vector<pair<int, int>> idGroupsPossible;
         for(size_t k = 0; k < _groups.size(); k++) {
             if(idGroupsPossible.size() < 10) {
@@ -99,7 +99,7 @@ namespace theGame {
         return client;
     }
     void RequestManager::removeClient(const long& __id) {
-        for(int k = 0; k < _groups.size(); k++) {
+        for(size_t k = 0; k < _groups.size(); k++) {
             if(_clients[k]->getId() == __id) {
                 delete _clients[k];
                 _clients.erase(_clients.begin() + k);
@@ -107,7 +107,7 @@ namespace theGame {
         }
     }
     VirtualClient* RequestManager::findClientByRequest(const long& __requestId) const {
-        for(int k = 0; k < _clients.size(); k++) {
+        for(size_t k = 0; k < _clients.size(); k++) {
             if(_clients[k]->isRequestFromThisPlayer(__requestId)) {
                 return _clients[k];
             }
@@ -135,7 +135,7 @@ namespace theGame {
         try {
             requestID = stoi(_options[0]);
         }
-        catch(exception e) {
+        catch(const exception& e) {
 
             if(requestName != CONEC)
                 return new ReturnRequest("ERROR 403", __fileDescriptor);// l'id de la requête n'est pas valable
@@ -173,7 +173,7 @@ namespace theGame {
                 try{
                     groupId = stoi(_options[1]);
                 }
-                catch(exception e) {
+                catch(const exception& e) {
                     return new ReturnRequest("ERROR 410", __fileDescriptor);// mauvaise valeur d'option envoyé
                 }
 
@@ -196,7 +196,7 @@ namespace theGame {
                 //notify the others with GMINF
                 vector<int> fds = group->getAllFileDescriptor();
 
-                for(int k = 0; k < fds.size(); k++) {
+                for(size_t k = 0; k < fds.size(); k++) {
                     request->addNext("GMINF " + to_string(group->getAsyncCode()) + " " + to_string(group->getNbOfClient()), fds[k]);
                 }
 
@@ -219,7 +219,7 @@ namespace theGame {
 
                 if(groupTarget->getStatus() == 0) {
                     
-                    for(int k = 0; k < fds.size(); k++) {
+                    for(size_t k = 0; k < fds.size(); k++) {
                         request->addNext("GMINF " + to_string(groupTarget->getAsyncCode()) + " " + to_string(groupTarget->getNbOfClient()), fds[k]);
                     }
 
@@ -230,7 +230,7 @@ namespace theGame {
 
 
                 if(groupTarget->getStatus() == 1) {
-                    for(int k = 0; k < fds.size(); k++) {
+                    for(size_t k = 0; k < fds.size(); k++) {
                         request->addNext("ENDGM " + to_string(groupTarget->endOfGame()) + " 1", fds[k]);
                     } 
                     removeGroup(groupTarget->getId());
@@ -267,7 +267,7 @@ namespace theGame {
                 vector<VirtualClient*> clients = group->getClients();
 
                 request = new ReturnRequest();
-                for(int k = 0; k < clients.size(); k++) {
+                for(size_t k = 0; k < clients.size(); k++) {
                     string requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + group->sendPiles();
                     string requestSNDHD = "SNDHD " + to_string(clients[k]->getLastRequestId()) + " " + clients[k]->asRequest();
 
@@ -289,7 +289,7 @@ namespace theGame {
                 vector<VirtualClient*> clients = group->getClients();
 
                 request = new ReturnRequest();
-                for(int k = 0; k < clients.size(); k++) {
+                for(size_t k = 0; k < clients.size(); k++) {
                     request->addNext("ENDGM " + to_string(nbCardsNotPlayed) + " 0", clients[k]->getFileDescriptor());
                 } 
 
@@ -315,7 +315,7 @@ namespace theGame {
                         return new ReturnRequest("ERROR "+ to_string(returnValue), __fileDescriptor);
                     }
                 }
-                catch(exception e){
+                catch(const exception& e){
                     return new ReturnRequest("ERROR 410", __fileDescriptor); // mauvaise valeur d'option envoyé
                 }
 
@@ -324,11 +324,11 @@ namespace theGame {
                 string requestSNDSK = "SNDSK " + to_string(client->getLastRequestId()) + " " + groupTarget->sendPiles();
                 string requestCNCAT = "CNCAT " + requestSNDSK + " " + requestSNDHD;
 
-                request = new ReturnRequest(requestCNCAT, groupTarget->getFileDescriptorCurrentPLayer());
+                request = new ReturnRequest(requestCNCAT, groupTarget->getFileDescriptorCurrentPlayer());
 
                 vector<VirtualClient*> clients = groupTarget->getClients();
 
-                for(int k = 0; k < clients.size(); k++) {
+                for(size_t k = 0; k < clients.size(); k++) {
                     if(clients[k]->getId() != client->getId())
                     requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + groupTarget->sendPiles();
 
@@ -353,7 +353,7 @@ namespace theGame {
                 if(group->isStackEmpty()) {
                     vector<VirtualClient*> clients = group->getClients();
 
-                    for(int k = 0; k < clients.size(); k++) {
+                    for(size_t k = 0; k < clients.size(); k++) {
                         request->addNext("ENDRW", clients[k]->getFileDescriptor());
                     }
                 }
@@ -370,7 +370,7 @@ namespace theGame {
                 vector<VirtualClient*> clients = group->getClients();
                 
                 request = new ReturnRequest();
-                for(int k = 0; k < clients.size(); k++) {
+                for(size_t k = 0; k < clients.size(); k++) {
                     request->addNext(__str, clients[k]->getFileDescriptor()); // send the message directly to all the clients
                 }
 

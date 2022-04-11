@@ -9,9 +9,9 @@ namespace theGame {
     public:
         Card(const int& value);
 
-        const int& getValue() const;
+        int getValue() const;
 
-        const bool& is10diff(const int& value) const;
+        bool is10diff(const int& value) const;
     };
 }  // namespace theGame
 

@@ -13,11 +13,11 @@ namespace theGame {
         }
     }
 
-    const Card& Pile::getTopCard() const { return _cards[0]; }
+    Card Pile::getTopCard() const { return _cards[0]; }
 
     void Pile::playCard(const Card& __card) { _cards.insert(_cards.begin(), __card); }
 
-    const string& Pile::asRequest() const {
+    string Pile::asRequest() const {
         return to_string(getTopCard().getValue());
     }
 }  // namespace theGame

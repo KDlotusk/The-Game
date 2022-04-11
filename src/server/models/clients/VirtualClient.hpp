@@ -21,23 +21,23 @@ namespace theGame {
         VirtualClient(const long& id, const int& fileDescriptor);
         ~VirtualClient();
 
-        const long& getId() const;
-        const Hand* getHand() const;
-        const int& getCardsPlayed() const;
-        const int& getFileDescriptor() const;
-        const int& getLastRequestId() const;
+        long getId() const;
+        Hand* getHand() const;
+        int getCardsPlayed() const;
+        int getFileDescriptor() const;
+        int getLastRequestId() const;
 
         void setLastRequestId(const int& lastRequestId);
         void incrementRequest();
 
-        const bool& isRequestFromThisPlayer(const long& __requestId) const;
+        bool isRequestFromThisPlayer(const long& __requestId) const;
 
         void addCards(const std::vector<Card>& __cards);
 
         void incrementNbCardsPlayed();
         void cardsPlayedTo0();
 
-        const std::string& asRequest() const;
+        std::string asRequest() const;
     };
 }  // namespace theGame
 

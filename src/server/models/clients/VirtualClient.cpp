@@ -6,7 +6,7 @@ using namespace std;
 
 namespace theGame {
     VirtualClient::VirtualClient(const long& __id, const int& __fileDescriptor) {
-        _id = __id;
+        _id = (1 + __id) * 100000;
         _fileDescriptor = __fileDescriptor;
 
         _hand = new Hand(std::vector<Card>());
@@ -14,11 +14,11 @@ namespace theGame {
 
     VirtualClient::~VirtualClient() { delete _hand; }
 
-    const long& VirtualClient::getId() const { return _id; }
-    const Hand* VirtualClient::getHand() const { return _hand; }
-    const int& VirtualClient::getCardsPlayed() const { return _cardsPlayed; }
-    const int& VirtualClient::getFileDescriptor() const { return _fileDescriptor; }
-    const int& VirtualClient::getLastRequestId() const { return _lastRequestId; }
+    long VirtualClient::getId() const { return _id; }
+    Hand* VirtualClient::getHand() const { return _hand; }
+    int VirtualClient::getCardsPlayed() const { return _cardsPlayed; }
+    int VirtualClient::getFileDescriptor() const { return _fileDescriptor; }
+    int VirtualClient::getLastRequestId() const { return _lastRequestId; }
 
     void VirtualClient::setLastRequestId(const int& __lastRequestId) { _lastRequestId = __lastRequestId; }
     void VirtualClient::incrementRequest() {
@@ -31,14 +31,14 @@ namespace theGame {
         }
     }
 
-    const bool& VirtualClient::isRequestFromThisPlayer(const long& __requestId) const {
-        return (_id % 1000 == __requestId / 1000);
+    bool VirtualClient::isRequestFromThisPlayer(const long& __requestId) const {
+        return (_id / 1000 == __requestId / 1000);
     }
 
     void VirtualClient::incrementNbCardsPlayed() { _cardsPlayed += 1; }
     void VirtualClient::cardsPlayedTo0() { _cardsPlayed = 0; }
 
-    const string& VirtualClient::asRequest() const {
+    string VirtualClient::asRequest() const {
         return _hand->asRequest();
     }
 }  // namespace theGame

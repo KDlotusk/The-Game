@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "Pile.hpp"
+#include "../cards/Pile.hpp"
 #include "VirtualClient.hpp"
 
 namespace theGame {
@@ -31,40 +31,37 @@ namespace theGame {
     public:
         Group(long idGroup);
 
-        const bool& isRequestFromThisGroup(const long& requestId) const;
+        bool isRequestFromThisGroup(const long& requestId) const;
 
         VirtualClient* getGameMaster() const;
-        const long& getId() const;
-        const int& getStatus() const;
+        long getId() const;
+        int getStatus() const;
 
         void addClient(VirtualClient* client);
         void removeClient(const long& id);
 
         std::vector<VirtualClient*> getClients() const;
-        const int& getNbOfClient() const;
-        const int& getCurrentClient() const;
-        const bool& isStackEmpty() const;
-        const int& getAsyncCode() const;
-        const int& getFileDescriptorCurrentPlayer() const;
+        int getNbOfClient() const;
+        int getCurrentClient() const;
+        bool isStackEmpty() const;
+        int getAsyncCode() const;
+        int getFileDescriptorCurrentPlayer() const;
 
         void setAsyncCode(const int& asyncCode);
 
-        const std::string& sendPiles() const;
-        const std::string& sendHandCurrentPlayer() const;
-        const int& getFileDescriptorCurrentPLayer() const;
-        const std::vector<int>& getAllFileDescriptor() const;
-        const std::vector<int>& getAllFileDescriptorButCurrentPlayer() const;
-        const int& nbCardsNotPLayed() const;
+        std::string sendPiles() const;
+        std::string sendHandCurrentPlayer() const;
+        std::vector<int> getAllFileDescriptor() const;
+        std::vector<int> getAllFileDescriptorButCurrentPlayer() const;
+        int nbCardsNotPLayed() const;
 
 
-        const bool& startGame();
+        bool startGame();
 
-        const int& play(const long& requestId, const int& pile, const int& cardId);
+        int play(const long& requestId, const int& pile, const int& cardId);
 
         void endOfTurn();
-        const int& endOfGame();
-
-        
+        int endOfGame();
     };
 }  // namespace theGame
 

@@ -9,10 +9,10 @@ namespace theGame {
         addNext(request, fileDescriptor);
     }
 
-    const int& ReturnRequest::getSize() const { return _requests.size(); }
-    const bool& ReturnRequest::isEmpty() const { return _requests.empty(); }
+    int ReturnRequest::getSize() const { return _requests.size(); }
+    bool ReturnRequest::isEmpty() const { return _requests.empty(); }
 
-    const bool& ReturnRequest::hasNext() const { return !isEmpty(); }
+    bool ReturnRequest::hasNext() const { return !isEmpty(); }
 
     void ReturnRequest::addNext(std::string __request, int __fileDescriptor) {
         __request += "\n";

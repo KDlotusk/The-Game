@@ -14,10 +14,10 @@ namespace theGame {
         ReturnRequest();
         ReturnRequest(std::string request, int fileDescriptor);
 
-        const int& getSize() const;
-        const bool& isEmpty() const;
+        int getSize() const;
+        bool isEmpty() const;
 
-        const bool& hasNext() const;
+        bool hasNext() const;
 
         void addNext(std::string request, int fileDescriptor);
 

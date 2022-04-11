@@ -4,10 +4,10 @@ using namespace std;
 
 namespace theGame {
     Group::Group(long __idGroup) {
-        _idGroup = (1 + __idGroup) * 100000 + 1;
+        _idGroup = (1 + __idGroup) * 100000;
     }
 
-    const bool& Group::isRequestFromThisGroup(const long& __requestId) const {
+    bool Group::isRequestFromThisGroup(const long& __requestId) const {
         for (size_t k = 0; k < _clients.size(); k++) {
             if (_clients[k]->isRequestFromThisPlayer(__requestId)) return true;
         }
@@ -15,8 +15,8 @@ namespace theGame {
     }
 
     VirtualClient* Group::getGameMaster() const { return _clients[0]; }
-    const long& Group::getId() const { return _idGroup; }
-    const int& Group::getStatus() const { return _status; }
+    long Group::getId() const { return _idGroup; }
+    int Group::getStatus() const { return _status; }
 
     void Group::addClient(VirtualClient* __client) {
         _clients.push_back(__client);
@@ -30,14 +30,15 @@ namespace theGame {
     }
 
     vector<VirtualClient*> Group::getClients() const { return _clients; }
-    const int& Group::getNbOfClient() const { return _clients.size(); }
-    const int& Group::getCurrentClient() const { return _currentClient; }
-    const bool& Group::isStackEmpty() const { return _stack.isEmpty(); }
-    const int& Group::getAsyncCode() const { return _asyncCode; }
-    const int& Group::getFileDescriptorCurrentPlayer() const { return _clients[_currentClient]->getFileDescriptor(); }
+    int Group::getNbOfClient() const { return _clients.size(); }
+    int Group::getCurrentClient() const { return _currentClient; }
+    bool Group::isStackEmpty() const { return _stack.isEmpty(); }
+    int Group::getAsyncCode() const { return _asyncCode; }
+    int Group::getFileDescriptorCurrentPlayer() const { return _clients[_currentClient]->getFileDescriptor(); }
+    
     void Group::setAsyncCode(const int& asyncCode) { _asyncCode = asyncCode; }
 
-    const std::string& Group::sendPiles() const {
+    std::string Group::sendPiles() const {
         string str = "4";
 
         for(size_t k = 0; k < 4; k++) {
@@ -46,14 +47,11 @@ namespace theGame {
 
         return str;
     }
-    const std::string& Group::sendHandCurrentPlayer() const {
+    std::string Group::sendHandCurrentPlayer() const {
         return _clients[_currentClient]->asRequest();
     }
 
-    const int& Group::getFileDescriptorCurrentPLayer() const {
-        return _clients[_currentClient]->getFileDescriptor();
-    }
-    const std::vector<int>& Group::getAllFileDescriptor() const {
+    std::vector<int> Group::getAllFileDescriptor() const {
         vector<int> fds;
 
         for(size_t k = 0; k < _clients.size() ; k++) {
@@ -62,17 +60,17 @@ namespace theGame {
 
         return fds;
     }
-    const std::vector<int>& Group::getAllFileDescriptorButCurrentPlayer() const {
+    std::vector<int> Group::getAllFileDescriptorButCurrentPlayer() const {
         vector<int> fds;
 
         for(size_t k = 0; k < _clients.size() ; k++) {
-            if(k != _currentClient)
+            if((int)k != _currentClient)
                 fds.push_back(_clients[k]->getFileDescriptor());
         }
 
         return fds;
     }
-    const int& Group::nbCardsNotPLayed() const {
+    int Group::nbCardsNotPLayed() const {
         int count = 0;
         count += _stack.size();
 
@@ -84,7 +82,7 @@ namespace theGame {
     }
 
 
-    const bool& Group::startGame() {
+    bool Group::startGame() {
         if (getNbOfClient() > _nbMinMaxPlayer.first &&
             getNbOfClient() < _nbMinMaxPlayer.second) {
             array<Pile, 4> piles = { Pile(true), Pile(true), Pile(false), Pile(false) };
@@ -109,13 +107,15 @@ namespace theGame {
         return false;
     }
 
-    const int& Group::play(const long& __requestId, const int& __pile, const int& __cardId) {
+    int Group::play(const long& __requestId, const int& __pile, const int& __cardId) {
         if(_status == 1) {
             if(_clients[_currentClient]->isRequestFromThisPlayer(__requestId)) {
                 if(_clients[_currentClient]->getHand()->size() > __cardId && __cardId > 0) {
-                    int cardNumber = _clients[_currentClient]->getHand()->getCard(__cardId).getValue();
+                    Card card = _clients[_currentClient]->getHand()->getCard(__cardId);
 
-                    _piles[__pile].playCard(Card(__cardId));
+                    _piles[__pile].playCard(card);
+
+                    _clients[_currentClient]->getHand()->removeCard(__cardId);
 
                     _clients[_currentClient]->incrementNbCardsPlayed();
                 }
@@ -145,7 +145,7 @@ namespace theGame {
         _currentClient = (_currentClient + 1) % _clients.size();
     }
 
-    const int& Group::endOfGame() {
+    int Group::endOfGame() {
         _status = 2;
         return nbCardsNotPLayed();
     }

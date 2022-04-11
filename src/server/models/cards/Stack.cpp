@@ -21,9 +21,9 @@ namespace theGame {
         shuffle(begin(_cards), end(_cards), rng);
     }
 
-    const vector<Card>& Stack::draw(const int& i /* = 1 */) {
+    vector<Card> Stack::draw(const int& i /* = 1 */) {
         vector<Card> cardDrawn;
-        for (size_t k = 0; k < i; k++) {
+        for (int k = 0; k < i; k++) {
             Card tmp = _cards[0];
             _cards.erase(_cards.begin());
             cardDrawn.push_back(tmp);
@@ -31,11 +31,11 @@ namespace theGame {
         return cardDrawn;
     }
 
-    const bool& Stack::isEmpty() const { return _cards.empty(); }
+    bool Stack::isEmpty() const { return _cards.empty(); }
 
-    const int& Stack::size() const { return _cards.size(); }
+    int Stack::size() const { return _cards.size(); }
 
-    const string& Stack::asRequest() const {
+    string Stack::asRequest() const {
         string str = to_string(_cards.size());
 
         for(size_t k = 0; k < _cards.size(); k++) {

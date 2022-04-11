@@ -10,9 +10,9 @@ namespace theGame {
     public:
         Hand(const std::vector<Card>& cards);
 
-        const Card& getCard(const int& i) const;
+        Card getCard(const int& i) const;
         void addCard(const Card& card);
-        void removeCard(const int& i);
+        Card removeCard(const int& i);
     };
 }  // namespace theGame
 
