@@ -23,9 +23,9 @@ namespace theGame {
 
     class RequestManager {
     private:
-        vector<string> _options;
+        std::vector<std::string> _options;
         std::vector<theGame::Group*> _groups;
-        vector<VirtualClient*> _clients;
+        std::vector<VirtualClient*> _clients;
 
         std::map<std::string, int> _requests{
             { "ACKIT", ACKIT }, { "ALIVE", ALIVE }, 

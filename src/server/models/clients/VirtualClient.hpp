@@ -3,6 +3,7 @@
 #define THEGAME_SERVER_VIRTUALCLIENT_HPP
 
 #include <vector>
+#include <string>
 
 #include "Hand.hpp"
 
@@ -36,7 +37,7 @@ namespace theGame {
         void incrementNbCardsPlayed();
         void cardsPlayedTo0();
 
-        const string& asRequest() const;
+        const std::string& asRequest() const;
     };
 }  // namespace theGame
 

@@ -3,6 +3,7 @@
 #define THEGAME_SERVER_STACK_HPP
 
 #include <vector>
+#include <string>
 
 #include "Card.hpp"
 

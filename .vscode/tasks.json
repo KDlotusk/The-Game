@@ -13,9 +13,6 @@
         "command": "qmake  ; make"
       },
       "problemMatcher": [],
-      "options": {
-        "cwd": "${workspaceFolder}${pathSeparator}build"
-      },
       "group": {
         "kind": "build",
         "isDefault": true

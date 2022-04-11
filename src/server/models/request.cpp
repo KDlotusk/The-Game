@@ -53,9 +53,9 @@ namespace theGame {
             }
         }
     }
-    Group* RequestManager::findGroupByRequest(const long& __requestId) const {
+    Group* RequestManager::findGroupById(const long& __id) const {
         for (size_t k = 0; k < _groups.size(); k++) {
-            if (_groups[k]->isRequestFromThisGroup(__requestId)) {
+            if (_groups[k]->getId() == __id) {
                 return _groups[k];
             }
         }

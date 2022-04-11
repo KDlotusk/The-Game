@@ -2,7 +2,7 @@
 #ifndef THEGAME_SERVER_HPP
 #define THEGAME_SERVER_HPP
 
-#include "socket.hpp"
+#include "connection/socket.hpp"
 
 namespace theGame {
     extern int port;

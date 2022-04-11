@@ -6,8 +6,8 @@
 #include <thread>
 #include <vector>
 
-#include "ConnectionManager.hpp"
-#include "communication.hpp"
+#include "connection/ConnectionManager.hpp"
+#include "connection/communication.hpp"
 
 using namespace std;
 

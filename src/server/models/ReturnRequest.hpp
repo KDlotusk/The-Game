@@ -11,7 +11,7 @@ namespace theGame {
 
 
     public:
-        ReturnRequest() {};
+        ReturnRequest();
         ReturnRequest(std::string request, int fileDescriptor);
 
         const int& getSize() const;

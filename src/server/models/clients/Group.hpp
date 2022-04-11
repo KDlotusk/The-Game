@@ -40,7 +40,7 @@ namespace theGame {
         void addClient(VirtualClient* client);
         void removeClient(const long& id);
 
-        vector<VirtualClient*> getClients() const;
+        std::vector<VirtualClient*> getClients() const;
         const int& getNbOfClient() const;
         const int& getCurrentClient() const;
         const bool& isStackEmpty() const;
