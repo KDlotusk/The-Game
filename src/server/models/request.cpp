@@ -127,7 +127,7 @@ namespace theGame {
         
         string opt = __str.substr(5);
         _fillOptions(opt);
-        if(_options.size() == 0) {
+        if(_options.size() == 0 && requestName != CONEC) {
             return new ReturnRequest("ERROR 411", __fileDescriptor); //aucune option n'a été reçu
         }
 
