@@ -26,26 +26,14 @@ namespace theGame {
         // remove the first element of the vector, tests shows that the first element is a blank element left by the "while" part of the function
         _options.erase(_options.begin()); 
     }
-
-
-//public:
-    RequestManager::~RequestManager() {
-        for(size_t k = 0; k < _groups.size(); k++) {
-            delete _groups[k];
-        }
-        for(size_t k = 0; k < _clients.size(); k++) {
-            delete _clients[k];
-        }
-    }
-
-    Group* RequestManager::createGroup() { 
+    Group* RequestManager::_createGroup() { 
         Group* group = new Group(_groups.size());
 
         _groups.push_back(group);
 
         return group;
     }
-    void RequestManager::removeGroup(const long& __id) {
+    void RequestManager::_removeGroup(const long& __id) {
         for (size_t k = 0; k < _groups.size(); k++) {
             if (_groups[k]->getId() == __id) {
                 delete _groups[k];
@@ -53,7 +41,7 @@ namespace theGame {
             }
         }
     }
-    Group* RequestManager::findGroupById(const long& __id) const {
+    Group* RequestManager::_findGroupById(const long& __id) const {
         for (size_t k = 0; k < _groups.size(); k++) {
             if (_groups[k]->getId() == __id) {
                 return _groups[k];
@@ -62,7 +50,7 @@ namespace theGame {
 
         return nullptr;
     }
-    Group* RequestManager::findGroupByRequest(const long& __requestId) const {
+    Group* RequestManager::_findGroupByRequest(const long& __requestId) const {
         for(size_t k = 0; k < _groups.size(); k++) {
             if(_groups[k]->isRequestFromThisGroup(__requestId)) {
                 return _groups[k];
@@ -71,7 +59,7 @@ namespace theGame {
         return nullptr;
     }
 
-    string RequestManager::seeGroups() const {
+    string RequestManager::_seeGroups() const {
         vector<pair<int, int>> idGroupsPossible;
         for(size_t k = 0; k < _groups.size(); k++) {
             if(idGroupsPossible.size() < 10) {
@@ -93,13 +81,13 @@ namespace theGame {
         return str;
     }
 
-    VirtualClient* RequestManager::createClient(const int& __fileDescriptor) {
+    VirtualClient* RequestManager::_createClient(const int& __fileDescriptor) {
         VirtualClient* client = new VirtualClient(_clients.size(), __fileDescriptor);
         _clients.push_back(client);
 
         return client;
     }
-    void RequestManager::removeClient(const long& __id) {
+    void RequestManager::_removeClient(const long& __id) {
         for(size_t k = 0; k < _groups.size(); k++) {
             if(_clients[k]->getId() == __id) {
                 delete _clients[k];
@@ -107,13 +95,25 @@ namespace theGame {
             }
         }
     }
-    VirtualClient* RequestManager::findClientByRequest(const long& __requestId) const {
+    VirtualClient* RequestManager::_findClientByRequest(const long& __requestId) const {
         for(size_t k = 0; k < _clients.size(); k++) {
             if(_clients[k]->isRequestFromThisPlayer(__requestId)) {
                 return _clients[k];
             }
         }
         return nullptr;
+    }
+
+//public:
+
+
+    RequestManager::~RequestManager() {
+        for(size_t k = 0; k < _groups.size(); k++) {
+            delete _groups[k];
+        }
+        for(size_t k = 0; k < _clients.size(); k++) {
+            delete _clients[k];
+        }
     }
 
 
@@ -148,7 +148,7 @@ namespace theGame {
         ReturnRequest* request = nullptr;
 
 
-        VirtualClient* client = findClientByRequest(requestID);
+        VirtualClient* client = _findClientByRequest(requestID);
         if(client != nullptr) {
             client->setLastRequestId(requestID);
         }
@@ -162,12 +162,12 @@ namespace theGame {
         //Dealing with the requests
         switch(requestName) {
             case CONEC: {
-                    VirtualClient* client = createClient(__fileDescriptor);
+                    VirtualClient* client = _createClient(__fileDescriptor);
                     return new ReturnRequest("VALID " + to_string(client->getId()) , __fileDescriptor);
                 }
                 break;
             case SEEGM: {
-                return new ReturnRequest("SNDGM " + to_string(client->getLastRequestId()) + " " + seeGroups(), __fileDescriptor);
+                return new ReturnRequest("SNDGM " + to_string(client->getLastRequestId()) + " " + _seeGroups(), __fileDescriptor);
             }
                 break;
             case JOING: {
@@ -183,7 +183,7 @@ namespace theGame {
                     return new ReturnRequest("ERROR 410", __fileDescriptor);// mauvaise valeur d'option envoyé
                 }
 
-                Group* group = findGroupById((long)groupId);
+                Group* group = _findGroupById((long)groupId);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 417", __fileDescriptor);// le group n'existe pas
                 }
@@ -210,7 +210,7 @@ namespace theGame {
             }
                 break;
             case LEAVE: {
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
@@ -230,7 +230,7 @@ namespace theGame {
                     }
 
                     if(group->getNbOfClient() == 0) {
-                        removeGroup(group->getId());
+                        _removeGroup(group->getId());
                     }   
                 }
 
@@ -239,14 +239,14 @@ namespace theGame {
                     for(size_t k = 0; k < fds.size(); k++) {
                         request->addNext("ENDGM " + to_string(group->endOfGame()) + " 1", fds[k]);
                     } 
-                    removeGroup(group->getId());
+                    _removeGroup(group->getId());
                 }   
 
                 return request;
             }
                 break;
             case MAKEG: {
-                Group* group = createGroup();
+                Group* group = _createGroup();
                 group->addClient(client);
 
                 if(group->getAsyncCode() == -1) {
@@ -261,7 +261,7 @@ namespace theGame {
             }
                 break;
             case SRTGM: {
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
@@ -288,7 +288,7 @@ namespace theGame {
             }
                 break;
             case CTPLY: { // can't play -> end of the game 
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
@@ -301,13 +301,13 @@ namespace theGame {
                     request->addNext("ENDGM " + to_string(nbCardsNotPlayed) + " 0", clients[k]->getFileDescriptor());
                 } 
 
-                removeGroup(group->getId());
+                _removeGroup(group->getId());
 
                 return request;
             }
                 break;
             case PLAY_: {
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
@@ -347,7 +347,7 @@ namespace theGame {
             }
                 break;
             case ENTRN: {
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
@@ -370,7 +370,7 @@ namespace theGame {
             }
                 break;
             case MESSG: {
-                Group* group = findGroupByRequest(requestID);
+                Group* group = _findGroupByRequest(requestID);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }

@@ -44,20 +44,20 @@ namespace theGame {
 
         void _fillOptions(std::string opt);
 
+        theGame::Group* _createGroup();
+        void _removeGroup(const long& id);
+        theGame::Group* _findGroupById(const long& id) const;
+        theGame::Group* _findGroupByRequest(const long& requestId) const;
+
+        std::string _seeGroups() const;
+
+        theGame::VirtualClient* _createClient(const int& fileDescriptor);
+        void _removeClient(const long& id);
+        theGame::VirtualClient* _findClientByRequest(const long& requestId) const;
+
+
     public:
         ~RequestManager();
-
-        theGame::Group* createGroup();
-        void removeGroup(const long& id);
-        theGame::Group* findGroupById(const long& id) const;
-        theGame::Group* findGroupByRequest(const long& requestId) const;
-
-        std::string seeGroups() const;
-
-        theGame::VirtualClient* createClient(const int& fileDescriptor);
-        void removeClient(const long& id);
-        theGame::VirtualClient* findClientByRequest(const long& requestId) const;
-
 
         theGame::ReturnRequest* request(const std::string& str, const int& fileDescriptor);
     };
