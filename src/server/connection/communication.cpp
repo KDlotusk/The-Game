@@ -26,6 +26,10 @@ namespace theGame {
         clientsFileDescriptors.push_back(__readerFileDescriptor);
 
         do {
+            for(size_t k = 0; k < SOCKET_BUFFER_SIZE; k++) { // clear le buffer pour éviter les résidus d'autres requêtes
+                message[k] = 0;
+            }
+
             if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) break; 
 
             cout << " < [" + to_string(__readerFileDescriptor) + "] " + message << endl;
@@ -42,8 +46,7 @@ namespace theGame {
                 cout << " > [" + to_string(requestToSend.second) + "] " + requestToSend.first << endl;
             }
 
-            delete response;
-            
+            delete response;        
         } while (true);
 
         for (size_t i = 0; i < clientsFileDescriptors.size(); ++i)
