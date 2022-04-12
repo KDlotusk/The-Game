@@ -76,7 +76,8 @@ namespace theGame {
         for(size_t k = 0; k < _groups.size(); k++) {
             if(idGroupsPossible.size() < 10) {
                 if(_groups[k]->getStatus() == 0) {
-                    idGroupsPossible.push_back(make_pair(_groups[k]->getId(), _groups[k]->getNbOfClient()));
+                    if(_groups[k]->getNbOfClient() < 5)
+                        idGroupsPossible.push_back(make_pair(_groups[k]->getId(), _groups[k]->getNbOfClient()));
                 }
             }
             else {
@@ -182,7 +183,7 @@ namespace theGame {
                     return new ReturnRequest("ERROR 417", __fileDescriptor);// le group n'existe pas
                 }
 
-                if(group->getStatus() != 0) {
+                if(group->getStatus() != 0 || group->getNbOfClient() >= 5) {
                     return new ReturnRequest("ERROR 201", __fileDescriptor);// la partie n'est pas disponible
                 }
                 group->addClient(client);
