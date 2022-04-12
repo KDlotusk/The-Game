@@ -124,6 +124,9 @@ namespace theGame {
 
         if(_requests.find(__str.substr(0, 5)) != _requests.end())
             requestName = _requests[__str.substr(0, 5)];
+        else
+            return new ReturnRequest("ERROR 400", __fileDescriptor); // requête non reconnus
+
         
         string opt = __str.substr(5);
         _fillOptions(opt);
