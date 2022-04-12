@@ -155,6 +155,8 @@ namespace theGame {
             }
         }
 
+
+        //Dealing with the requests
         switch(requestName) {
             case CONEC: {
                     VirtualClient* client = createClient(__fileDescriptor);
@@ -168,7 +170,7 @@ namespace theGame {
             case JOING: {
                 //add client to the desired group
                 if(_options.size() < 2) {
-                    return new ReturnRequest("ERROR 415", __fileDescriptor);// certaines valeurs d'_options sont manquante
+                    return new ReturnRequest("ERROR 415", __fileDescriptor);// certaines valeurs d'options sont manquante
                 }
                 int groupId;
                 try{
