@@ -135,7 +135,7 @@ namespace theGame {
         }
 
 
-        int requestID;         
+        int requestID = 0;         
         try {
             requestID = stoi(_options[0]);
         }
@@ -210,36 +210,36 @@ namespace theGame {
             }
                 break;
             case LEAVE: {
-                Group* groupTarget = findGroupByRequest(requestID);
-                if(groupTarget == nullptr) {
+                Group* group = findGroupByRequest(requestID);
+                if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
 
                 request = new ReturnRequest();
 
-                request->addNext("ASYNC " + to_string(groupTarget->getAsyncCode()), __fileDescriptor);
+                request->addNext("ASYNC " + to_string(group->getAsyncCode()), __fileDescriptor);
 
 
-                groupTarget->removeClient(client->getId());
-                vector<int> fds = groupTarget->getAllFileDescriptor();
+                group->removeClient(client->getId());
+                vector<int> fds = group->getAllFileDescriptor();
 
-                if(groupTarget->getStatus() == 0) {
+                if(group->getStatus() == 0) {
                     
                     for(size_t k = 0; k < fds.size(); k++) {
-                        request->addNext("GMINF " + to_string(groupTarget->getAsyncCode()) + " " + to_string(groupTarget->getNbOfClient()), fds[k]);
+                        request->addNext("GMINF " + to_string(group->getAsyncCode()) + " " + to_string(group->getNbOfClient()), fds[k]);
                     }
 
-                    if(groupTarget->getNbOfClient() == 0) {
-                        removeGroup(groupTarget->getId());
+                    if(group->getNbOfClient() == 0) {
+                        removeGroup(group->getId());
                     }   
                 }
 
 
-                if(groupTarget->getStatus() == 1) {
+                if(group->getStatus() == 1) {
                     for(size_t k = 0; k < fds.size(); k++) {
-                        request->addNext("ENDGM " + to_string(groupTarget->endOfGame()) + " 1", fds[k]);
+                        request->addNext("ENDGM " + to_string(group->endOfGame()) + " 1", fds[k]);
                     } 
-                    removeGroup(groupTarget->getId());
+                    removeGroup(group->getId());
                 }   
 
                 return request;
@@ -282,6 +282,8 @@ namespace theGame {
                     request->addNext("START " + to_string(clients[k]->getLastRequestId()) + " " + requestSNDSK + " " + requestSNDHD, clients[k]->getFileDescriptor());
                 }
 
+                group->setAsyncCode(-1);
+
                 return request;
             }
                 break;
@@ -305,8 +307,8 @@ namespace theGame {
             }
                 break;
             case PLAY_: {
-                Group* groupTarget = findGroupByRequest(requestID);
-                if(groupTarget == nullptr) {
+                Group* group = findGroupByRequest(requestID);
+                if(group == nullptr) {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
 
@@ -315,7 +317,7 @@ namespace theGame {
                 }
 
                 try{
-                    int returnValue = groupTarget->play(requestID, stoi(_options[1]), stoi(_options[2]));
+                    int returnValue = group->play(requestID, stoi(_options[1]), stoi(_options[2]));
 
                     if(returnValue != 0) {
                         return new ReturnRequest("ERROR "+ to_string(returnValue), __fileDescriptor);
@@ -326,17 +328,17 @@ namespace theGame {
                 }
 
 
-                string requestSNDHD = "SNDHD " + to_string(client->getLastRequestId()) + " " + groupTarget->sendHandCurrentPlayer();
-                string requestSNDSK = "SNDSK " + to_string(client->getLastRequestId()) + " " + groupTarget->sendPiles();
+                string requestSNDHD = "SNDHD " + to_string(client->getLastRequestId()) + " " + group->sendHandCurrentPlayer();
+                string requestSNDSK = "SNDSK " + to_string(client->getLastRequestId()) + " " + group->sendPiles();
                 string requestCNCAT = "CNCAT " + requestSNDSK + " " + requestSNDHD;
 
-                request = new ReturnRequest(requestCNCAT, groupTarget->getFileDescriptorCurrentPlayer());
+                request = new ReturnRequest(requestCNCAT, group->getFileDescriptorCurrentPlayer());
 
-                vector<VirtualClient*> clients = groupTarget->getClients();
+                vector<VirtualClient*> clients = group->getClients();
 
                 for(size_t k = 0; k < clients.size(); k++) {
                     if(clients[k]->getId() != client->getId())
-                    requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + groupTarget->sendPiles();
+                    requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + group->sendPiles();
 
                     request->addNext(requestSNDSK, clients[k]->getFileDescriptor());
                 }
