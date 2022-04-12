@@ -12,10 +12,10 @@
       "linux": {
         "command": "qmake  ; make"
       },
-      "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}${pathSeparator}build"
+        "cwd": "${workspaceFolder}"
       },
+      "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
