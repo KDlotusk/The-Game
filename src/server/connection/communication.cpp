@@ -26,14 +26,11 @@ namespace theGame {
         clientsFileDescriptors.push_back(__readerFileDescriptor);
 
         do {
-            mtx.lock();
-
-            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) { mtx.unlock(); break; }
+            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) break; 
 
             cout << " < [" + to_string(__readerFileDescriptor) + "] " + message << endl;
 
             ReturnRequest* response = requestManager.request(string(message), __readerFileDescriptor);
-            mtx.unlock();
 
             while(response->hasNext()) {
                 pair<string, int> requestToSend = response->readNext();
@@ -44,6 +41,8 @@ namespace theGame {
                 
                 cout << " > [" + to_string(requestToSend.second) + "] " + requestToSend.first << endl;
             }
+
+            delete response;
             
         } while (true);
 
