@@ -8,9 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+build/**
 develop-eggs/
-dist/
+dist/**
 downloads/
 eggs/
 .eggs/
@@ -217,3 +217,7 @@ compile_commands.json
 # Personal settings in .vscode
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+
+!build/server
+!dist/server
+!.gitkeep
