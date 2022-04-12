@@ -10,6 +10,7 @@ namespace theGame {
         _fileDescriptor = __fileDescriptor;
 
         _hand = new Hand(std::vector<Card>());
+        _isConnected = true;
     }
 
     VirtualClient::~VirtualClient() { delete _hand; }
@@ -19,6 +20,13 @@ namespace theGame {
     int VirtualClient::getCardsPlayed() const { return _cardsPlayed; }
     int VirtualClient::getFileDescriptor() const { return _fileDescriptor; }
     int VirtualClient::getLastRequestId() const { return _lastRequestId; }
+    bool VirtualClient::isConnected() const { return _isConnected; }
+
+    void VirtualClient::resetFileDescriptor() {
+        _fileDescriptor = -1;
+    }
+    void VirtualClient::setFileDescriptor(const int& __fileDescriptor) { _fileDescriptor = __fileDescriptor; }
+
 
     void VirtualClient::setLastRequestId(const int& __lastRequestId) { _lastRequestId = __lastRequestId; }
     void VirtualClient::incrementRequest() {

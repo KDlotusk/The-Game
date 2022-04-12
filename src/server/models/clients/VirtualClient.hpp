@@ -11,11 +11,13 @@ namespace theGame {
     class VirtualClient {
     private:
         long _id;  // 100 000 for example
+        int _fileDescriptor;
+
         long _lastRequestId;
         Hand* _hand;
         int _cardsPlayed = 0;
 
-        int _fileDescriptor;
+        bool _isConnected;
 
     public:
         VirtualClient(const long& id, const int& fileDescriptor);
@@ -26,6 +28,10 @@ namespace theGame {
         int getCardsPlayed() const;
         int getFileDescriptor() const;
         int getLastRequestId() const;
+        bool isConnected() const;
+
+        void resetFileDescriptor();
+        void setFileDescriptor(const int& fileDescriptor);
 
         void setLastRequestId(const int& lastRequestId);
         void incrementRequest();
