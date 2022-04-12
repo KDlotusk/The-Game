@@ -16,7 +16,7 @@ namespace theGame {
         _timeLastRecord = time(NULL);
     }
 
-    VirtualClient::~VirtualClient() { delete _hand; }
+    VirtualClient::~VirtualClient() { delete _hand; _fileDescriptor = -1; _id = -1; }
 
     long VirtualClient::getId() const { return _id; }
     Hand* VirtualClient::getHand() const { return _hand; }
@@ -32,7 +32,7 @@ namespace theGame {
     void VirtualClient::setFileDescriptor(const int& __fileDescriptor) { _fileDescriptor = __fileDescriptor; }
 
     void VirtualClient::setTimerAtMinus9() { //in case other players are waiting on him
-        _timeLastRecord = time(NULL) - 60 * 9;
+        _timeLastRecord = time(NULL) - 60 * 9 - 30;
     }
 
     void VirtualClient::setLastRequestId(const int& __lastRequestId) { 

@@ -5,6 +5,12 @@ using namespace std;
 namespace theGame {
     Hand::Hand(const vector<Card>& _cards) : Stack(_cards) {}
 
+    void Hand::resetHand() {
+        while(!isEmpty()) {
+            removeCard(0);
+        }
+    }
+
     Card Hand::getCard(const int& __i) const { return _cards[__i]; }
     void Hand::addCard(const Card& __card) { _cards.push_back(__card); }
     Card Hand::removeCard(const int& __i) {

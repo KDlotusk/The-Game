@@ -21,8 +21,10 @@ namespace theGame {
     mutex mtx;
 
     void updateTimer() {
-        sendRequest(requestManager.updateTimer());
-        sleep(1);
+        while(true) {
+            sendRequest(requestManager.updateTimer());
+            sleep(1);
+        }
     }
 
     void sendRequest(ReturnRequest* __request) {

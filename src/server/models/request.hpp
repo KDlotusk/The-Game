@@ -25,6 +25,9 @@ namespace theGame {
 
     class RequestManager {
     private:
+
+        int _usableValuesForIdClient = 0;
+
         std::vector<std::string> _options;
         std::vector<theGame::Group*> _groups;
         std::vector<VirtualClient*> _clients;

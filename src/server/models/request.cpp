@@ -92,13 +92,15 @@ namespace theGame {
     }
 
     VirtualClient* RequestManager::_createClient(const int& __fileDescriptor) {
-        VirtualClient* client = new VirtualClient(_clients.size(), __fileDescriptor);
+        VirtualClient* client = new VirtualClient(_usableValuesForIdClient, __fileDescriptor);
         _clients.push_back(client);
+
+        _usableValuesForIdClient++;
 
         return client;
     }
     void RequestManager::_removeClient(const long& __id) {
-        for(size_t k = 0; k < _groups.size(); k++) {
+        for(size_t k = 0; k < _clients.size(); k++) {
             if(_clients[k]->getId() == __id) {
                 delete _clients[k];
                 _clients.erase(_clients.begin() + k);
@@ -173,14 +175,19 @@ namespace theGame {
     }
 
     ReturnRequest* RequestManager::updateTimer() {
+        
 
         ReturnRequest* request = new ReturnRequest();
 
         for(size_t k = 0; k < _clients.size(); k++) {
             if(_clients[k]->getTimeElapsedSinceLastRequest() /60 >= 9) { // si ça fait 9 minutes ou plus que le client n'a rien envoyé
                 request->addNext("ALIVE " + to_string(_clients[k]->getLastRequestId()), _clients[k]->getFileDescriptor());
+                cout << "client " + to_string(_clients[k]->getFileDescriptor()) + " has not talked in a while, please answer" << endl;
             }
             if(_clients[k]->getTimeElapsedSinceLastRequest() /60 >= 10) {
+                cout << "client " + to_string(_clients[k]->getFileDescriptor()) + " is considered disconnected" << endl;
+
+
                 Group* group = _findGroupByRequest(_clients[k]->getLastRequestId());
                 
                 if(group != nullptr) {
@@ -255,6 +262,14 @@ namespace theGame {
             }
                 break;
             case JOING: {
+
+                Group* group;
+
+                group = _findGroupByRequest(client->getLastRequestId());
+                if(group != nullptr) {
+                    return new ReturnRequest("ERROR 304", __fileDescriptor); // Vous êtes déjà dans un groupe, vous ne pouvez pas en rejoindre un autre
+                }
+
                 //add client to the desired group
                 if(_options.size() < 2) {
                     return new ReturnRequest("ERROR 415", __fileDescriptor);// certaines valeurs d'options sont manquante
@@ -267,7 +282,7 @@ namespace theGame {
                     return new ReturnRequest("ERROR 410", __fileDescriptor);// mauvaise valeur d'option envoyé
                 }
 
-                Group* group = _findGroupById((long)groupId);
+                group = _findGroupById((long)groupId);
                 if(group == nullptr) {
                     return new ReturnRequest("ERROR 417", __fileDescriptor);// le group n'existe pas
                 }
@@ -300,14 +315,15 @@ namespace theGame {
                 }
 
                 request = new ReturnRequest();
-
-                request->addNext("ASYNC " + to_string(group->getAsyncCode()), __fileDescriptor);
-
-
-                group->removeClient(client->getId());
                 vector<int> fds = group->getAllFileDescriptor();
 
                 if(group->getStatus() == 0) {
+
+                    group->removeClient(client->getId());
+
+
+                    request->addNext("ASYNC " + to_string(group->getAsyncCode()), __fileDescriptor);
+
                     
                     for(size_t k = 0; k < fds.size(); k++) {
                         request->addNext("GMINF " + to_string(group->getAsyncCode()) + " " + to_string(group->getNbOfClient()), fds[k]);
@@ -323,6 +339,7 @@ namespace theGame {
                     for(size_t k = 0; k < fds.size(); k++) {
                         request->addNext("ENDGM " + to_string(group->endOfGame()) + " 1", fds[k]);
                     } 
+                    group->removeClient(client->getId());
                     _removeGroup(group->getId());
                 }   
 
@@ -361,10 +378,13 @@ namespace theGame {
                     string requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + group->sendPiles();
                     string requestSNDHD = "SNDHD " + to_string(clients[k]->getLastRequestId()) + " " + clients[k]->asRequest();
 
-
-                    request->addNext("ASYNC " + to_string(group->getAsyncCode()), clients[k]->getFileDescriptor());
                     request->addNext("START " + to_string(clients[k]->getLastRequestId()) + " " + requestSNDSK + " " + requestSNDHD, clients[k]->getFileDescriptor());
+                    request->addNext("ASYNC " + to_string(group->getAsyncCode()), clients[k]->getFileDescriptor());
                 }
+
+                request->addNext("UTURN " + to_string(group->getClients()[group->getCurrentClient()]->getLastRequestId()), group->getClients()[group->getCurrentClient()]->getFileDescriptor());
+                
+                group->getClients()[group->getCurrentClient()]->setTimerAtMinus9();
 
                 group->setAsyncCode(-1);
 
@@ -423,10 +443,11 @@ namespace theGame {
                 vector<VirtualClient*> clients = group->getClients();
 
                 for(size_t k = 0; k < clients.size(); k++) {
-                    if(clients[k]->getId() != client->getId())
-                    requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + group->sendPiles();
+                    if(clients[k]->getId() != client->getId()) {
+                        requestSNDSK = "SNDSK " + to_string(clients[k]->getLastRequestId()) + " " + group->sendPiles();
 
-                    request->addNext(requestSNDSK, clients[k]->getFileDescriptor());
+                        request->addNext(requestSNDSK, clients[k]->getFileDescriptor());
+                    }
                 }
 
                 return request;
@@ -442,7 +463,7 @@ namespace theGame {
                 request = new ReturnRequest("ACKIT " + to_string(client->getLastRequestId()), client->getFileDescriptor());
                 request->addNext("UTURN " + to_string(group->getClients()[group->getCurrentClient()]->getLastRequestId()), group->getClients()[group->getCurrentClient()]->getFileDescriptor());
                 
-                client->setTimerAtMinus9();
+                group->getClients()[group->getCurrentClient()]->setTimerAtMinus9();
 
                 //send ENDRW if needed
                 if(group->isStackEmpty()) {
@@ -485,7 +506,8 @@ namespace theGame {
             }
                 break;
             default:
-                return new ReturnRequest("ERROR 401", __fileDescriptor); // requête ne devrait pas être envoyer par le client
+                if(requestName != ACKIT)
+                    return new ReturnRequest("ERROR 401", __fileDescriptor); // requête ne devrait pas être envoyer par le client
                 break;
         }
 

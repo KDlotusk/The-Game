@@ -5,6 +5,16 @@ using namespace std;
 namespace theGame {
     Group::Group(long __idGroup) {
         _idGroup = (1 + __idGroup) * 100000;
+
+        vector<Card> ascending1; ascending1.push_back(1);
+        vector<Card> ascending2; ascending2.push_back(1);
+        vector<Card> descending1; descending1.push_back(100);
+        vector<Card> descending2; descending2.push_back(100);
+
+        _piles[0] = Pile(ascending1);
+        _piles[1] = Pile(ascending2);
+        _piles[2] = Pile(descending1);
+        _piles[3] = Pile(descending2);
     }
 
     bool Group::isRequestFromThisGroup(const long& __requestId) const {
@@ -82,17 +92,22 @@ namespace theGame {
 
 
     bool Group::startGame() {
-        if (getNbOfClient() > _nbMinMaxPlayer.first &&
-            getNbOfClient() < _nbMinMaxPlayer.second) {
+        if (getNbOfClient() >= _nbMinMaxPlayer.first &&
+            getNbOfClient() <= _nbMinMaxPlayer.second) {
             array<Pile, 4> piles = { Pile(true), Pile(true), Pile(false), Pile(false) };
             _stack.reset();
 
+            for (size_t k = 0; k < _clients.size(); k++) {
+                _clients[k]->getHand()->resetHand();
+            }
+
+            _nbCardsPerHand = 8;
             // set the hand of the players
             if (_clients.size() == 2) {
                 _nbCardsPerHand = 7;
             }
             if (_clients.size() > 2) {
-                _nbCardsPerHand = 8;
+                _nbCardsPerHand = 6;
             }
 
             for (size_t k = 0; k < _clients.size(); k++) {
@@ -109,7 +124,7 @@ namespace theGame {
     int Group::play(const long& __requestId, const int& __pile, const int& __cardId) {
         if(_status == 1) {
             if(_clients[_currentClient]->isRequestFromThisPlayer(__requestId)) {
-                if(_clients[_currentClient]->getHand()->size() > __cardId && __cardId > 0) {
+                if(_clients[_currentClient]->getHand()->size() > __cardId && __cardId >= 0) {
                     Card card = _clients[_currentClient]->getHand()->getCard(__cardId);
 
                     _piles[__pile].playCard(card);
