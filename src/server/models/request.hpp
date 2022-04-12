@@ -15,8 +15,10 @@ namespace theGame {
         CONEC, CTPLY, ENDGM, ENDRW, 
         ERROR, ENTRN, GMINF, JOING, 
         LEAVE, MAKEG, MESSG, PLAY_, 
-        SEEGM, SNDGM, SNDHD, SNDSK, 
-        SRTGM, START, UTURN, VALID, 
+        RONEC, SEEGM, SNDGM, SNDHD, 
+        SNDSK, SRTGM, START, UTURN, 
+        VALID, 
+
 
         DEFAULT
     };
@@ -40,6 +42,7 @@ namespace theGame {
             { "SNDHD", SNDHD }, { "SNDSK", SNDSK },
             { "SRTGM", SRTGM }, { "START", START }, 
             { "UTURN", UTURN }, { "VALID", VALID },
+            { "RONEC", RONEC },
         };
 
         void _fillOptions(std::string opt);
@@ -48,16 +51,22 @@ namespace theGame {
         void _removeGroup(const long& id);
         theGame::Group* _findGroupById(const long& id) const;
         theGame::Group* _findGroupByRequest(const long& requestId) const;
+        theGame::Group* _findGroupByFd(const long& requestId) const;
 
         std::string _seeGroups() const;
 
         theGame::VirtualClient* _createClient(const int& fileDescriptor);
         void _removeClient(const long& id);
         theGame::VirtualClient* _findClientByRequest(const long& requestId) const;
+        theGame::VirtualClient* _findClientByFd(const long& requestId) const;
 
 
     public:
         ~RequestManager();
+
+        theGame::ReturnRequest* updateTimer();
+
+        theGame::ReturnRequest* disconnect(const int& fileDescriptor);
 
         theGame::ReturnRequest* request(const std::string& str, const int& fileDescriptor);
     };

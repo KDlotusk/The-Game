@@ -39,6 +39,8 @@ int main(int argc, char* argv[]) {
 
     vector<StreamSocket*> clients;
 
+    thread(updateTimer).detach();
+
     do {
         auto client = server.accept();
         cout << "Client " << client->getSockfd() << " accepted" << endl;

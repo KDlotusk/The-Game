@@ -1,3 +1,7 @@
+#pragma once
+#ifndef THEGAME_SERVER_RETURNREQUEST_HPP
+#define THEGAME_SERVER_RETURNREQUEST_HPP
+
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -23,4 +27,6 @@ namespace theGame {
 
         std::pair<std::string, int> readNext();
     };
-}
+} // namespace theGame 
+
+#endif  // THEGAME_SERVER_RETURNREQUEST_HPP

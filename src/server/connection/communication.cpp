@@ -20,6 +20,28 @@ namespace theGame {
     RequestManager requestManager;
     mutex mtx;
 
+    void updateTimer() {
+        sendRequest(requestManager.updateTimer());
+        sleep(1);
+    }
+
+    void sendRequest(ReturnRequest* __request) {
+        while(__request->hasNext()) {
+            pair<string, int> requestToSend = __request->readNext();
+            if (write(
+                requestToSend.second, requestToSend.first.c_str(),
+                requestToSend.first.length()) <= 0)
+                    { 
+                        ReturnRequest* response = requestManager.disconnect(requestToSend.second);
+                        sendRequest(response);
+                        break; 
+                    } 
+            
+            cout << " > [" + to_string(requestToSend.second) + "] " + requestToSend.first << endl;
+        }
+
+    }
+
     void interactWithClient(const int& __readerFileDescriptor) {
         char message[SOCKET_BUFFER_SIZE] = { 0 };
 
@@ -30,23 +52,21 @@ namespace theGame {
                 message[k] = 0;
             }
 
-            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) break; 
+            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) { 
+                ReturnRequest* response = requestManager.disconnect(__readerFileDescriptor);
+                sendRequest(response);
+
+                delete response;  
+                break; 
+            } 
 
             cout << " < [" + to_string(__readerFileDescriptor) + "] " + message << endl;
 
             ReturnRequest* response = requestManager.request(string(message), __readerFileDescriptor);
+            sendRequest(response);
+            
 
-            while(response->hasNext()) {
-                pair<string, int> requestToSend = response->readNext();
-                if (write(
-                    requestToSend.second, requestToSend.first.c_str(),
-                    requestToSend.first.length()) <= 0)
-                        break;
-                
-                cout << " > [" + to_string(requestToSend.second) + "] " + requestToSend.first << endl;
-            }
-
-            delete response;        
+            delete response;
         } while (true);
 
         for (size_t i = 0; i < clientsFileDescriptors.size(); ++i)

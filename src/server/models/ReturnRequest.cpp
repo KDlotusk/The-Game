@@ -15,8 +15,10 @@ namespace theGame {
     bool ReturnRequest::hasNext() const { return !isEmpty(); }
 
     void ReturnRequest::addNext(std::string __request, int __fileDescriptor) {
-        __request += "\n";
-        _requests.push_back(std::make_pair(__request, __fileDescriptor));
+        if(__fileDescriptor != -1) {
+            __request += "\n";
+            _requests.push_back(std::make_pair(__request, __fileDescriptor));
+        }
     }
 
     std::pair<std::string, int> ReturnRequest::readNext() {

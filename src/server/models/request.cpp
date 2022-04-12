@@ -58,6 +58,16 @@ namespace theGame {
         }
         return nullptr;
     }
+    Group* RequestManager::_findGroupByFd(const long& __fileDescriptor) const {
+        for(size_t k = 0; k < _groups.size(); k++) {
+            vector<VirtualClient*> clients = _groups[k]->getClients();
+            for(size_t j = 0; j < clients.size(); j++) {
+                if(clients[j]->getFileDescriptor() == __fileDescriptor)
+                    return _groups[k];
+            }
+        }
+        return nullptr;
+    }
 
     string RequestManager::_seeGroups() const {
         vector<pair<int, int>> idGroupsPossible;
@@ -103,10 +113,16 @@ namespace theGame {
         }
         return nullptr;
     }
+    VirtualClient* RequestManager::_findClientByFd(const long& __fileDescriptor) const {
+        for(size_t k = 0; k < _clients.size(); k++) {
+            if(_clients[k]->getFileDescriptor() == __fileDescriptor) {
+                return _clients[k];
+            }
+        }
+        return nullptr;
+    }
 
 //public:
-
-
     RequestManager::~RequestManager() {
         for(size_t k = 0; k < _groups.size(); k++) {
             delete _groups[k];
@@ -116,7 +132,72 @@ namespace theGame {
         }
     }
 
+    theGame::ReturnRequest* RequestManager::disconnect(const int& __fileDescriptor) {
+        Group* group = _findGroupByFd(__fileDescriptor);
+        VirtualClient* client = _findClientByFd(__fileDescriptor);
 
+        client->disconnect();
+
+        ReturnRequest* request = new ReturnRequest();
+
+        if(group != nullptr) {
+
+            vector<VirtualClient*> clients = group->getClients();
+
+            if(group->getStatus() == 2) {
+                group->removeClient(client->getId());
+            }
+            else if (group->getStatus() == 0 ) {
+                group->removeClient(client->getId());
+
+                for(size_t k = 0; k < clients.size(); k++) {
+                    request->addNext("GMINF " + to_string(group->getAsyncCode()) + " " + to_string(group->getNbOfClient()), clients[k]->getFileDescriptor());
+                }
+
+                if(group->getNbOfClient() == 0) {
+                    _removeGroup(group->getId());
+                }   
+            }
+            else {
+
+                for(size_t k = 0; k < clients.size(); k++) {
+                    if(clients[k]->isConnected())
+                        request->addNext("DISCO " + to_string(clients[k]->getLastRequestId()) + " " + to_string(client->getId()), clients[k]->getFileDescriptor());
+                }
+
+                return request;
+            }
+        }
+
+        return request;
+    }
+
+    ReturnRequest* RequestManager::updateTimer() {
+
+        ReturnRequest* request = new ReturnRequest();
+
+        for(size_t k = 0; k < _clients.size(); k++) {
+            if(_clients[k]->getTimeElapsedSinceLastRequest() /60 >= 9) { // si ça fait 9 minutes ou plus que le client n'a rien envoyé
+                request->addNext("ALIVE " + to_string(_clients[k]->getLastRequestId()), _clients[k]->getFileDescriptor());
+            }
+            if(_clients[k]->getTimeElapsedSinceLastRequest() /60 >= 10) {
+                Group* group = _findGroupByRequest(_clients[k]->getLastRequestId());
+                
+                if(group != nullptr) {
+                    group->removeClient(_clients[k]->getId());
+
+                    for(size_t k = 0; k < group->getClients().size(); k++) {
+                        request->addNext("ENDGM " + to_string(group->endOfGame()) + " 2", group->getClients()[k]->getFileDescriptor());
+                    } 
+                    _removeGroup(group->getId());
+                }
+
+                _removeClient(_clients[k]->getId());
+            }
+        }
+
+        return request;
+    }
 
     ReturnRequest* RequestManager::request(const std::string& __str, const int& __fileDescriptor) {
         
@@ -151,6 +232,9 @@ namespace theGame {
         VirtualClient* client = _findClientByRequest(requestID);
         if(client != nullptr) {
             client->setLastRequestId(requestID);
+            if(!client->isConnected()) {
+                client->reconnect(__fileDescriptor);
+            }
         }
         else {
             if(requestName != CONEC) {
@@ -327,6 +411,8 @@ namespace theGame {
                     return new ReturnRequest("ERROR 410", __fileDescriptor); // mauvaise valeur d'option envoyé
                 }
 
+                client->setTimerAtMinus9();
+
 
                 string requestSNDHD = "SNDHD " + to_string(client->getLastRequestId()) + " " + group->sendHandCurrentPlayer();
                 string requestSNDSK = "SNDSK " + to_string(client->getLastRequestId()) + " " + group->sendPiles();
@@ -356,6 +442,7 @@ namespace theGame {
                 request = new ReturnRequest("ACKIT " + to_string(client->getLastRequestId()), client->getFileDescriptor());
                 request->addNext("UTURN " + to_string(group->getClients()[group->getCurrentClient()]->getLastRequestId()), group->getClients()[group->getCurrentClient()]->getFileDescriptor());
                 
+                client->setTimerAtMinus9();
 
                 //send ENDRW if needed
                 if(group->isStackEmpty()) {
@@ -387,6 +474,14 @@ namespace theGame {
                     return request;
                 }
 
+            }
+                break;
+            case RONEC: {
+                if(client == nullptr) {
+                    return new ReturnRequest("ERROR 412", __fileDescriptor);
+                }
+
+                return new ReturnRequest("VALID " + to_string(client->getLastRequestId()), __fileDescriptor);
             }
                 break;
             default:
