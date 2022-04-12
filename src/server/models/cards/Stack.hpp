@@ -17,6 +17,8 @@ namespace theGame {
 
         Stack(const std::vector<Card>& cards);
 
+        virtual ~Stack() {};
+
         void reset();
 
         std::vector<Card> draw(const int& i = 1);

@@ -12,6 +12,8 @@ namespace theGame {
     Stack::Stack(const vector<Card>& __cards) { _cards = __cards; }
 
     void Stack::reset() {
+        srand (time(NULL));
+        
         _cards.clear();
         for (size_t k = 1; k < 100; k++) {
             _cards.push_back(k);
@@ -39,7 +41,7 @@ namespace theGame {
         string str = to_string(_cards.size());
 
         for(size_t k = 0; k < _cards.size(); k++) {
-            str+= " " + _cards[k].getValue();
+            str+= " " + to_string(_cards[k].getValue());
         }
 
         return str;

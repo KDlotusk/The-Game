@@ -5,6 +5,9 @@
 using namespace std;
 
 namespace theGame {
+
+    Pile::Pile(Stack __stack) : Stack(__stack) {};
+
     Pile::Pile(const bool& __isAscending) {
         if (__isAscending == true) {
             _cards.push_back(Card(1));

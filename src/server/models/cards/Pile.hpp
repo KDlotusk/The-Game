@@ -8,6 +8,9 @@
 namespace theGame {
     class Pile : public Stack {
     public:
+
+        Pile(Stack stack);
+
         Pile(const bool& isAscending);
 
         Card getTopCard() const;
