@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <mutex>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,6 +18,7 @@ using namespace std;
 namespace theGame {
     vector<int> clientsFileDescriptors;
     RequestManager requestManager;
+    mutex mtx;
 
     void interactWithClient(const int& __readerFileDescriptor) {
         char message[SOCKET_BUFFER_SIZE] = { 0 };
@@ -23,11 +26,14 @@ namespace theGame {
         clientsFileDescriptors.push_back(__readerFileDescriptor);
 
         do {
-            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) break;
+            mtx.lock();
+
+            if (read(__readerFileDescriptor, message, SOCKET_BUFFER_SIZE) <= 0) { mtx.unlock(); break; }
 
             cout << " < [" + to_string(__readerFileDescriptor) + "] " + message << endl;
 
             ReturnRequest* response = requestManager.request(string(message), __readerFileDescriptor);
+            mtx.unlock();
 
             while(response->hasNext()) {
                 pair<string, int> requestToSend = response->readNext();
