@@ -23,7 +23,7 @@ namespace theGame {
     void updateTimer() {
         while(true) {
             sendRequest(requestManager.updateTimer());
-            sleep(1);
+            sleep(5);
         }
     }
 
