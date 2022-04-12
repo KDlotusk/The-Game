@@ -145,7 +145,7 @@ namespace theGame {
                 return new ReturnRequest("ERROR 403", __fileDescriptor);// l'id de la requête n'est pas valable
         }
 
-        ReturnRequest* request;
+        ReturnRequest* request = nullptr;
 
 
         VirtualClient* client = findClientByRequest(requestID);
