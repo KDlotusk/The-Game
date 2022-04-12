@@ -11,8 +11,6 @@ _HOST = '127.0.0.1'
 _PORT = 3490
 _SOCKET_BUFFER_SIZE = 1024
 
-_is_connected = False
-
 
 class _BytesEnum(bytes, Enum):
     def __repr__(self) -> 'str':
@@ -24,47 +22,92 @@ class _BytesEnum(bytes, Enum):
 
 class _ProtocolKeyword(_BytesEnum):
     CONEC = auto()
+    VALID = auto()
+
+    SEEGM = auto()
+    SNDGM = auto()
+
     PLAY_ = auto()
     ACKIT = auto()
 
 
 class _BadResponse(Exception):
-    __slots__ = ('keyword',)
+    __slots__ = ('data_received',)
 
-    def __init__(self, keyword, *args, **kwargs) -> None:
-        self.keyword = keyword
+    def __init__(
+        self,
+        data_received: 'list[bytes]',
+        *args: 'Any',
+        **kwargs: 'Any',
+    ) -> None:
+        self.data_received = list(data_received)
         super().__init__(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f'The'
+        return (
+            'The server answered with an unexpected response : '
+            f'''{b''.join(self.data_received)!r}'''
+        )
 
 
+_is_connected_ = False
 _socket: 'socket | None' = None
+_id_ = b'-1'
 
 
-KEYWORD_TO_FUNCTION = {_ProtocolKeyword.CONEC: print}
+def _is_connected() -> 'bool':
+    return _is_connected_
 
 
-def _log_in(__username: 'bytes' = b'me') -> None:
-    global _socket, _is_connected
+def _id() -> 'bytes':
+    return _id_
+
+
+def _see_games() -> 'list[str]':
+    global _id_, _socket
 
     assert _socket is not None
 
-    _socket.sendall(b''.join((_ProtocolKeyword.CONEC, b' ', __username)))
+    _socket.sendall(b''.join((_ProtocolKeyword.SEEGM, b' ', _id_)))
     data_received = _socket.recv(_SOCKET_BUFFER_SIZE).split()
-
-    # keyword = data_received.pop(0)
-    # if keyword != ProtocolKeyword.ACKIT:
-    #     raise BadResponse(keyword)
-
     print(data_received)
+
+    keyword = data_received.pop(0)
+    if keyword != _ProtocolKeyword.SNDGM:
+        raise _BadResponse(data_received)
+
+    _id_ = data_received.pop(0)
+
+    res = []
+    for i in range(int(data_received.pop(0).decode())):
+        if i % 2 == 0:
+            continue
+        res.append(data_received[i].decode())
+
+    return res
+
+
+def _log_in() -> None:
+    global _id_, _socket
+
+    assert _socket is not None
+
+    _socket.sendall(b''.join((_ProtocolKeyword.CONEC, b' ')))
+    data_received = _socket.recv(_SOCKET_BUFFER_SIZE).split()
+    print(data_received)
+
+    keyword = data_received.pop(0)
+    if keyword != _ProtocolKeyword.VALID or len(data_received) != 1:
+        raise _BadResponse(data_received)
+
+    _id_ = data_received[0]
 
 
 def _connect_to_server() -> None:
     # ConnectionRefusedError
-    global _socket, _is_connected
+    global _is_connected_, _socket
 
-    if _socket is not None:
+    if _is_connected_ is True:
         return
 
     _socket = socket()
@@ -76,17 +119,4 @@ def _connect_to_server() -> None:
         _socket.close()
         raise err
 
-    _is_connected = True
-
-
-def _send_to_server(keyword: '_ProtocolKeyword', data_send: 'Any'):
-    # BrokenPipeError
-    global _socket, _is_connected
-
-    assert _socket is not None
-
-    KEYWORD_TO_FUNCTION[keyword]()
-
-    _socket.sendall(data_send)
-    data_received = _socket.recv(_SOCKET_BUFFER_SIZE).split()
-    print(data_received)
+    _is_connected_ = True

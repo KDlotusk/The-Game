@@ -5,28 +5,24 @@ from typing import TYPE_CHECKING
 from dearpygui import dearpygui as dpg
 from dearpygui.demo import show_demo
 
-from ._connection import _connect_to_server, _is_connected, _log_in
+from ._connection import _connect_to_server, _id, _is_connected, _log_in, _see_games
 
 if TYPE_CHECKING:
-    from socket import socket
     from typing import Any, Union
 
     _Tag = Union['int', 'str']
 
 _APP_NAME = 'The Game'
 
-_main_window: '_Tag' = -1
-
+_err_msg = 'An error occurred while trying to request the server: %s'
 _ignore_connection_error = False
 _last_err: 'Exception | None' = None
-_err_msg = 'An error occurred while trying to request the server: %s'
 
-
-def _on_play_clicked(sender: '_Tag', app_data: 'Any', socket: 'socket') -> None:
-    if _is_connected:
-        pass
-
-    _log_in()
+_home_window: '_Tag' = -1
+_lobbies_window: '_Tag' = -1
+_lobbies_list: '_Tag' = -1
+_err_text: '_Tag' = -1
+_popup: '_Tag' = -1
 
 
 def _create_debug_gui() -> None:
@@ -39,65 +35,138 @@ def _create_debug_gui() -> None:
     dpg.show_item_registry()
 
 
-def _close_popup(sender: '_Tag', app_data: 'Any', popup: '_Tag') -> None:
+def _close_popup(sender: '_Tag', app_data: None, popup: '_Tag') -> None:
     global _ignore_connection_error
 
     _ignore_connection_error = True
     dpg.hide_item(popup)
 
 
-def _try_to_connect_to_server() -> None:
+def _retry_to_connect() -> None:
     global _last_err
+    global _popup
 
     try:
         _connect_to_server()
+        print('Connected to server')
+        dpg.hide_item(_popup)
     except Exception as err:
         _last_err = err
 
 
+def _create_error_popup() -> None:
+    global _err_text
+    global _popup
+
+    with dpg.window(
+        label='Error', show=False, modal=True, no_close=True, no_move=True
+    ) as _popup:
+        _err_text = dpg.add_text(_err_msg % None)
+        dpg.add_separator()
+        with dpg.group(horizontal=True):
+            dpg.add_button(label='Retry', callback=_retry_to_connect)
+            dpg.add_button(label='Close', callback=_close_popup, user_data=_popup)
+
+        dpg.set_item_pos(
+            _popup,
+            (
+                dpg.get_viewport_width() / 2 - dpg.get_item_width(_popup) / 2,
+                dpg.get_viewport_height() / 2 - dpg.get_item_height(_popup) / 2,
+            ),
+        )
+        print(dpg.get_item_width(_popup))
+        dpg.hide_item(_popup)
+
+
+def _on_back_clicked() -> None:
+    global _home_window, _lobbies_window
+
+    dpg.show_item(_home_window)
+    dpg.set_primary_window(_home_window, True)
+    dpg.hide_item(_lobbies_window)
+
+
+def _create_lobbies_window() -> None:
+    global _lobbies_list, _lobbies_window
+
+    with dpg.window(label=_APP_NAME, show=False) as _lobbies_window:
+        _lobbies_list = dpg.add_listbox([], label="Games available")
+        dpg.add_button(
+            label='Back',
+            callback=_on_back_clicked,
+        )
+
+
+def _on_play_clicked(sender: '_Tag', app_data: 'Any') -> None:
+    global _last_err, _ignore_connection_error
+    global _home_window, _lobbies_window, _popup
+
+    if _is_connected() is False:
+        try:
+            _connect_to_server()
+            print('Connected to server')
+        except Exception as err:
+            _last_err = err
+            _ignore_connection_error = False
+            return
+
+    if _id() == b'-1':
+        _log_in()
+
+    dpg.show_item(_lobbies_window)
+    dpg.set_primary_window(_lobbies_window, True)
+    dpg.hide_item(_home_window)
+
+    dpg.set_value(_lobbies_list, _see_games())
+
+
+def _create_home_window() -> None:
+    global _home_window
+
+    with dpg.window(label=_APP_NAME) as _home_window:
+        dpg.add_button(
+            label='Play',
+            callback=_on_play_clicked,
+        )
+    dpg.set_primary_window(_home_window, True)
+
+
+def _change_size_popup(sender: '_Tag', app_data: '_Tag') -> None:
+    global _popup
+
+    dpg.set_item_pos(
+        _popup,
+        (
+            dpg.get_viewport_width() / 2 - dpg.get_item_width(_popup) / 2,
+            dpg.get_viewport_height() / 2 - dpg.get_item_height(_popup) / 2,
+        ),
+    )
+    print(dpg.get_item_width(_popup))
+
+
 async def _show_gui(__debug: 'bool') -> None:
-    global _err_msg, _ignore_connection_error, _last_err, _main_window
+    global _err_msg, _err_text, _ignore_connection_error, _last_err
+    global _popup
 
     dpg.create_context()
     dpg.create_viewport(title=_APP_NAME)
     dpg.setup_dearpygui()
 
-    with dpg.window(label=_APP_NAME) as _main_window:
-        dpg.add_button(
-            label='Play',
-            callback=_on_play_clicked,
-        )
-        dpg.add_input_text(label='request')
-        reconnect_btn = dpg.add_button(
-            label='Try to reconnect to server',
-            callback=_try_to_connect_to_server,
-            show=False,
-        )
+    dpg.set_viewport_resize_callback(_change_size_popup)
+    dpg.show_viewport()
 
-    with dpg.window(label='Error', show=False, modal=True, no_close=True) as popup:
-        err_text = dpg.add_text(_err_msg % None)
-        dpg.add_separator()
-        with dpg.group(horizontal=True):
-            dpg.add_button(label='Retry', callback=_try_to_connect_to_server)
-            dpg.add_button(label='Close', callback=_close_popup, user_data=popup)
+    _create_home_window()
+    _create_error_popup()
+    _create_lobbies_window()
 
     if __debug:
         _create_debug_gui()
 
-    dpg.set_primary_window(_main_window, True)
-    dpg.show_viewport(maximized=True)
-
-    dpg.value_registry()
-
     while dpg.is_dearpygui_running():
-        # insert here any code you would like to run in the render loop
-        # you can manually stop by using stop_dearpygui()
-        if _is_connected is False:
+        if _is_connected() is False and _last_err is not None:
             if _ignore_connection_error is False:
-                dpg.set_value(err_text, _err_msg % str(_last_err))
-                dpg.show_item(popup)
-            else:
-                dpg.show_item(reconnect_btn)
+                dpg.set_value(_err_text, _err_msg % str(_last_err))
+                dpg.show_item(_popup)
 
         dpg.render_dearpygui_frame()
 
