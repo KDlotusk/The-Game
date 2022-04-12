@@ -14,7 +14,6 @@ namespace theGame {
         return false;
     }
 
-    VirtualClient* Group::getGameMaster() const { return _clients[0]; }
     long Group::getId() const { return _idGroup; }
     int Group::getStatus() const { return _status; }
 

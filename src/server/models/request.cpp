@@ -367,14 +367,18 @@ namespace theGame {
                     return new ReturnRequest("ERROR 416", __fileDescriptor); // utilisateur n'est pas en jeux
                 }
 
-                vector<VirtualClient*> clients = group->getClients();
-                
-                request = new ReturnRequest();
-                for(size_t k = 0; k < clients.size(); k++) {
-                    request->addNext(__str, clients[k]->getFileDescriptor()); // send the message directly to all the clients
+                if(group->getStatus() == 1) {
+
+                    vector<VirtualClient*> clients = group->getClients();
+                    
+                    request = new ReturnRequest();
+                    for(size_t k = 0; k < clients.size(); k++) {
+                        request->addNext(__str, clients[k]->getFileDescriptor()); // send the message directly to all the clients
+                    }
+
+                    return request;
                 }
 
-                return request;
             }
                 break;
             default:

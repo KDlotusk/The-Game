@@ -33,7 +33,6 @@ namespace theGame {
 
         bool isRequestFromThisGroup(const long& requestId) const;
 
-        VirtualClient* getGameMaster() const;
         long getId() const;
         int getStatus() const;
 
